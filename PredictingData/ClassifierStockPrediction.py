@@ -145,28 +145,30 @@ class ClassifierAi:
         """
         :return: Historical data of a stock and divide it into lists that each contains [open, close, high, low]
         """
-        if self.daily:
-            return Cm.iterate_data(Cm.get_historical_data(self.ticker, self.start_day, self.end_day))
 
-        elif self.load_data_from_local:
-            "Means it's not daily but also load from local (no way to get daily from local, meanwhile)"
-            # source to choose whether you want ibkr or yahoo, ibkr contains premarket, Yahoo does not
-            if self.source == 'IBKR':
-                return self._get_data_from_interactive()
-            try:
-                return Cm.get_data_from_file_or_yahoo(self.ticker)
-            except SyntaxError:
-                return self._get_data_from_interactive()
+        return Cm.iterate_data(Cm.get_historical_data(self.ticker, self.start_day, self.end_day))\
+            if self.daily \
+            else Cm.get_data_from_file_or_yahoo(self.ticker)
 
-        else:
-            if self.source == 'IBKR':
-                read_data(self.ticker, self.other)
-                return self._get_data_from_interactive()
-            try:
-                return Cm.intraday_with_yahoo(self.ticker, self.other)
-            except [Exception]:
-                read_data(self.ticker, self.other)
-                return self._get_data_from_interactive()
+        # elif self.load_data_from_local:
+        #     "Means it's not daily but also load from local (no way to get daily from local, meanwhile)"
+        #     # source to choose whether you want ibkr or yahoo, ibkr contains premarket, Yahoo does not
+        #     if self.source == 'IBKR':
+        #         return self._get_data_from_interactive()
+        #     try:
+        #         return Cm.get_data_from_file_or_yahoo(self.ticker)
+        #     except SyntaxError:
+        #         return self._get_data_from_interactive()
+        #
+        # else:
+        #     if self.source == 'IBKR':
+        #         read_data(self.ticker, self.other)
+        #         return self._get_data_from_interactive()
+        #     try:
+        #         return Cm.intraday_with_yahoo(self.ticker, self.other)
+        #     except [Exception]:
+        #         read_data(self.ticker, self.other)
+        #         return self._get_data_from_interactive()
 
     def prepare_data(self, scaled_data):
         """ func to prepare data that in x_train it contains prediction_days values and in y_train the predicted

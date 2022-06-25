@@ -3,7 +3,7 @@ import json
 import os
 
 import datetime as dt
-from typing import Union,  Any
+from typing import Union, Any
 
 import matplotlib.pyplot as plt
 import ast
@@ -11,7 +11,7 @@ import pandas as pd
 from functools import wraps
 from yahoofinancials import YahooFinancials
 from tensorflow.keras.models import load_model
-from Trading.data_order_something import read_data, read_from_file
+# from Trading.data_order_something import read_data, read_from_file
 import yfinance as yf
 import re
 from flask import request
@@ -59,8 +59,8 @@ def random_date(start, end, prop):
     return str_time_prop(start, end, '%m/%d/%Y %I:%M %p', prop)
 
 
-def read_csv(path, ticker=None, other='3'):
-    return pd.read_csv(path) if os.path.exists(path) else pd.read_csv(read_data(ticker, other=other))
+# def read_csv(path, ticker=None, other='3'):
+#     return pd.read_csv(path) if os.path.exists(path) else pd.read_csv(read_data(ticker, other=other))
 
 
 def iterate_data(data, what=0):
@@ -144,27 +144,6 @@ def write_in_json_file(path, data: dict, ticker=None):
                       )
 
 
-def return_json_data(ticker, json_path='../predicting_stocks/settings_for_ai/parameters_status.json'):
-    # try:
-    #     with open(json_path, 'r'):
-    #         print(json_path)
-    # except FileNotFoundError:
-    #     print('did not find file', json_path, sep=', ')
-    #     return [None for _ in range(4)]
-    return [setting for setting in file[ticker]['settings'].values()]\
-        if os.path.exists(json_path) and ticker in (file := open_json(json_path)) else [None for _ in range(4)]
-    #
-    # if not json_path:
-    #     return None
-    # with open(json_path, 'r') as json_file:
-    #     p = json.load(json_file)
-    #     if ticker in p:
-    #         p = p[ticker]['settings']
-    #         return [p['epochs'], p['units'], p['prediction_days'], p['prediction_day']]
-    #     else:
-    #         return [None for _ in range(4)]
-
-
 def check_data(x_train, y_train, constant=1):
     for i in range(0, len(x_train) - constant):
         assert y_train[i] == x_train[i + constant][-1], "not good data"
@@ -183,13 +162,13 @@ def get_data_from_saved_file(ticker, ):
         return ast.literal_eval(data)
 
 
-def get_data_from_file_or_yahoo(ticker):
-    return iterate_data(ast.literal_eval(data), what=1) if (data := read_from_file(ticker)) is not None else \
-        intraday_with_yahoo(ticker)
+# def get_data_from_file_or_yahoo(ticker):
+#     return iterate_data(ast.literal_eval(data), what=1) if (data := read_from_file(ticker)) is not None else \
+#         intraday_with_yahoo(ticker)
 
 
 def no_iteration_interday_with_yahoo(ticker, other: Union[str, int] = '1d', interval='1m'):
-    assert interval in ALLOWED_INTERVALS and other in ALLOWED_PERIODS,\
+    assert interval in ALLOWED_INTERVALS and other in ALLOWED_PERIODS, \
         f"{other} or {interval} are not allowed to use as period or interval"
     data = yf.download(tickers=ticker, period=str(other), interval=interval)
     dates = list(data['Open'].keys())
@@ -269,6 +248,7 @@ def generate_tokens(user):
     write_in_json(TOKENS, {user: (token := generate_uniq_id())})
     return token
 
+
 def generate_uniq_id():
     return binascii.hexlify(os.urandom(20)).decode()
 
@@ -333,7 +313,6 @@ def add_to_database(client: str, data: Union[list, dict, bytes, str], key: str) 
 
 
 def histrical_data_json_format(ticker, start, end=END):
-
     data = get_historical_data(ticker, start, end)
     data = iterate_data(data)
     dates = generate_dates_between_dates(start, end)
@@ -357,7 +336,8 @@ def interday_data_json_format(ticker, period, interval):
 
 
 def get_user_start_day(user, key):
-    return data[user]['dates'].get(key, DEFAULT_DICT[key]) if user in (data := open_json(DATABASE_PATH)) else DEFAULT_DICT[key]
+    return data[user]['dates'].get(key, DEFAULT_DICT[key]) if user in (data := open_json(DATABASE_PATH)) else \
+        DEFAULT_DICT[key]
 
 
 def found_in_list_of_dict(iterate: Union[list[dict], dict[dict]], key: str, value: str) -> (bool, Any):
