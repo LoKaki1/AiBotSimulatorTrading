@@ -109,7 +109,9 @@ def get_historical_data(ticker, start, end):
                     ticker]['prices']).drop('date', axis=1)
                     .set_index('formatted_date'))
         except OSError:
-            raise InterruptedError("Just no bro..")
+            raise InterruptedError("Just no bro.. after reconnecting 2 times I cannot get data")
+
+
 
 
 def best_settings() -> (dict, float):
