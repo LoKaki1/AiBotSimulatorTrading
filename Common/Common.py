@@ -59,10 +59,6 @@ def random_date(start, end, prop):
     return str_time_prop(start, end, '%m/%d/%Y %I:%M %p', prop)
 
 
-# def read_csv(path, ticker=None, other='3'):
-#     return pd.read_csv(path) if os.path.exists(path) else pd.read_csv(read_data(ticker, other=other))
-
-
 def iterate_data(data, what=0):
     return [[float(p)
              for key in X_VALUES[what] if re.match('^[0-9/.]*$', str(p := data[key][index])) is not None]
@@ -176,12 +172,9 @@ def no_iteration_interday_with_yahoo(ticker, other: Union[str, int] = '1d', inte
                                               for key in X_VALUES[1]] for index, date in enumerate(dates)}
 
 
-def intraday_with_yahoo(ticker, other: Union[str, int] = '2', interval='1m'):
-    data = yf.download(tickers=ticker, period=f'{str(other)}d', interval=interval)
-    with open(f'../Trading/Historical_data/{ticker}.txt', 'w') as file:
-        data_dict = dict((key, [i for i in data[key]]) for key in ['Open', 'Close', 'Low', 'High'])
-        file.write(str(data_dict))
-    return iterate_data(data_dict, what=1)
+def intraday_with_yahoo(ticker, period: Union[str, int] = '2', interval='1m'):
+    data = yf.download(tickers=ticker, period=f'{str(period)}d', interval=interval)
+    return data.values
 
 
 def handle_with_time(ticker, json_object, ):
@@ -354,3 +347,6 @@ def remove_key_from_json(path: str, key):
     data = open_json(path)
     data.pop(key)
     write_json(path, data)
+
+
+print(intraday_with_yahoo("NIO", 2, '1m'))

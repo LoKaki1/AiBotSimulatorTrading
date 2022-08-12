@@ -7,13 +7,13 @@ from tensorflow.keras.layers import Dense, LSTM, Dropout
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.backend import clear_session
 from Common import Common as Cm
-# from Trading.data_order_something import read_data
+
 import re
 from typing import Union
-from Trading.yahoo_api import LiveData
+from GettingData.YahooApi import LiveData
 
 TICKER = 'NIO'
-X_VALUES = ['open', 'low', 'high', 'close', ]
+X_VALUES = ['open', 'low', 'high', 'close']
 START = dt.datetime(2020, 4, 15).strftime('%Y-%m-%d')
 END = (dt.datetime.now() - dt.timedelta(days=0)).strftime('%Y-%m-%d')
 TEST_END = (dt.datetime.now() - dt.timedelta(days=2)).strftime('%Y-%m-%d')
@@ -86,10 +86,10 @@ class ClassifierAi:
             self._generate_best_settings_from_file()
             self.prediction_day = 1  # need to work on that when add a support for multiple days on evloution
         else:
-            self.epochs, self.units, self.prediction_days, self.prediction_day = self.generate_data(epochs,
-                                                                                                    units,
-                                                                                                    prediction_days,
-                                                                                                    prediction_day)
+            self.epochs, self.units, self.prediction_days, self.prediction_day = (epochs,
+                                                                                  units,
+                                                                                  prediction_days,
+                                                                                  prediction_day)
 
     def live_last_price(self):
         return LiveData(self.ticker).get_live_price() if not self.daily else Cm.get_last_price(self.ticker)
@@ -104,15 +104,6 @@ class ClassifierAi:
                 settings['compiler']
         }
         print(self.epochs, self.units, self.prediction_days, self.model_building_blocks, sep=' -> ')
-
-    def generate_data(self, *args):
-        json_data = Cm.return_json_data(self.ticker)
-        for index, i in enumerate(json_data):
-            if args[index] is not None:
-                json_data[index] = int(args[index]) if re.match(r'^\d+$', str(args[index])) is not None else i
-            if json_data[index] is None:
-                json_data[index] = i if i is not None else PARAMETERS[index]
-        return json_data
 
     def fit_data(self):
         """
@@ -136,39 +127,15 @@ class ClassifierAi:
         print('I fit data :)')
         return self.scaled_data
 
-    def _get_data_from_interactive(self):
-        return Cm.iterate_data(
-            Cm.read_csv(f'../Trading/Historical_data/{self.ticker}.csv',
-                        self.ticker, other=self.other))
 
     def get_data(self):
         """
         :return: Historical data of a stock and divide it into lists that each contains [open, close, high, low]
         """
 
-        return Cm.iterate_data(Cm.get_historical_data(self.ticker, self.start_day, self.end_day))\
+        return Cm.iterate_data(Cm.get_historical_data(self.ticker, self.start_day, self.end_day)) \
             if self.daily \
             else Cm.get_data_from_file_or_yahoo(self.ticker)
-
-        # elif self.load_data_from_local:
-        #     "Means it's not daily but also load from local (no way to get daily from local, meanwhile)"
-        #     # source to choose whether you want ibkr or yahoo, ibkr contains premarket, Yahoo does not
-        #     if self.source == 'IBKR':
-        #         return self._get_data_from_interactive()
-        #     try:
-        #         return Cm.get_data_from_file_or_yahoo(self.ticker)
-        #     except SyntaxError:
-        #         return self._get_data_from_interactive()
-        #
-        # else:
-        #     if self.source == 'IBKR':
-        #         read_data(self.ticker, self.other)
-        #         return self._get_data_from_interactive()
-        #     try:
-        #         return Cm.intraday_with_yahoo(self.ticker, self.other)
-        #     except [Exception]:
-        #         read_data(self.ticker, self.other)
-        #         return self._get_data_from_interactive()
 
     def prepare_data(self, scaled_data):
         """ func to prepare data that in x_train it contains prediction_days values and in y_train the predicted
