@@ -88,28 +88,7 @@ def load_model_from_file(classifiler_ai_stock_model):
                  f'{classifiler_ai_stock_model.prediction_day}')) else None
 
 
-def get_historical_data(ticker, start, end):
-    try:
-        return (pd.DataFrame(
-            YahooFinancials(ticker).get_historical_price_data(
-                start_date=start,
-                end_date=end,
-                time_interval='daily')[
-                ticker]['prices']).drop('date', axis=1)
-                .set_index('formatted_date'))
-    except OSError as e:
-        print(f"can't connect to yahoo finanace api error - {e}")
-        time.sleep(4)
-        try:
-            return (pd.DataFrame(
-                YahooFinancials(ticker).get_historical_price_data(
-                    start_date=start,
-                    end_date=end,
-                    time_interval='daily')[
-                    ticker]['prices']).drop('date', axis=1)
-                    .set_index('formatted_date'))
-        except OSError:
-            raise InterruptedError("Just no bro.. after reconnecting 2 times I cannot get data")
+
 
 
 
