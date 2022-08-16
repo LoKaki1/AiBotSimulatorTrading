@@ -1,10 +1,10 @@
 import pandas as pd
 from yahoofinancials import YahooFinancials
 from Common.Logger import Logger
-from Common.Common import is_float_number
 
 """ My Constants """
 X_VALUES = ['open', 'low', 'high', 'close']
+FAIL_TO_PREPARE_DATA_MESSAGE = "data found was not expected in %s"
 
 
 def get_historical_data(ticker, start, end):
@@ -30,3 +30,10 @@ def one_array_data(data):
     return [
         data[state][index] for index, stock_price in enumerate(data[first]) for state in data
     ]
+
+
+def check_prepared_data_for_model(x_train, y_train, predict_constant=1):
+    for i in range(0, len(x_train) - predict_constant):
+        assertion = y_train[i] == x_train[i + predict_constant][-1]
+        "Hope som much it works that way "
+        assert assertion, FAIL_TO_PREPARE_DATA_MESSAGE.format(assertion)
