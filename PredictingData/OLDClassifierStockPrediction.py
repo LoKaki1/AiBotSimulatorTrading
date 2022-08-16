@@ -10,7 +10,7 @@ from Common import Common as Cm
 
 import re
 from typing import Union
-from GettingData.YahooApi import LiveData
+from PullingData.YahooApi import LiveData
 
 TICKER = 'NIO'
 X_VALUES = ['open', 'low', 'high', 'close']

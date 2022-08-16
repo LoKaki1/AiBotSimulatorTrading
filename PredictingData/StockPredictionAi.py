@@ -11,6 +11,8 @@ from Common.Logger import Logger
 
 START = dt.datetime(2020, 4, 15).strftime('%Y-%m-%d')
 END = (dt.datetime.now() - dt.timedelta(days=0)).strftime('%Y-%m-%d')
+TEST_END = (dt.datetime.now() - dt.timedelta(days=2)).strftime('%Y-%m-%d')
+TEST_START = START
 X_VALUES = ModelDataHandler.X_VALUES
 PREDICTION_DAY = 1
 PREDICTION_DAYS = 21
@@ -119,6 +121,7 @@ class StockPrediction:
             Dropout(DROPOUT_UNITS),
             LSTM(self.units, return_sequences=True),
             Dropout(DROPOUT_UNITS),
+            Dense(self.prediction_day)
         ])
         # In the future please put the logs in different file
         Logger.info(f"Model was created 😀")
@@ -159,7 +162,7 @@ class StockPrediction:
         try:
             prediction = self.scalar.inverse_transform(prediction_data_result)
         except ValueError as error:
-            print(f'error ocured{error}')
+            Logger.error(f"error in inversing scalar prediction data {error}")
             prediction = self.scalar.inverse_transform(
                 np.reshape(
                     prediction_data_result, (prediction_data_result.shape[0],
@@ -189,3 +192,4 @@ class StockPrediction:
         self.build_model_for_prediction(scaled_data)
         predicted_price = self.predict_data(scaled_data)
         return predicted_price
+
