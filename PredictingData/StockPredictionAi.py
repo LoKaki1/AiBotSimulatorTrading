@@ -125,15 +125,16 @@ class StockPrediction:
         model.summary()
         return model
 
-    def fit_model_x_y_trains(self, x_train: list, y_train: list, model: Sequential):
+    def fit_model_x_y_trains(self, x_train: np.ndarray, y_train: np.ndarray, model: Sequential):
         model.fit(x_train, y_train,
                   epochs=self.epochs, batch_size=self.batch_size)
         Logger.info("Model was fitted now its ready to make some predictions")
         return model
 
-    def build_model_for_prediction(self, x_train, y_train):
+    def build_model_for_prediction(self, scaled_data):
         if self.model is not None:
             return
+        x_train, y_train = self.prepare_data_for_model(scaled_data)
         model_before_fitting = self.build_model_layers(x_train)
         self.model = self.fit_model_x_y_trains(x_train, y_train, model_before_fitting)
 
@@ -183,3 +184,8 @@ class StockPrediction:
         """ data inversed """
         return predicted_data_inverse_transform_result
 
+    def predict_next_price(self):
+        scaled_data = self.build_data()
+        self.build_model_for_prediction(scaled_data)
+        predicted_price = self.predict_data(scaled_data)
+        return predicted_price
