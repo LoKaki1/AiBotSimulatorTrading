@@ -82,7 +82,6 @@ class StockPrediction:
         """
         x_train = []
         y_train = []
-        print('prepare data :)..')
         delta = len(X_VALUES) * self.prediction_days
         length_const = len(X_VALUES)
         """ Means to start counting from prediction_days index 'til the end """
@@ -132,7 +131,7 @@ class StockPrediction:
     def fit_model_x_y_trains(self, x_train: np.ndarray, y_train: np.ndarray, model: Sequential):
         model.fit(x_train, y_train,
                   epochs=self.epochs, batch_size=self.batch_size)
-        Logger.info()
+        Logger.info(MachineLogs.MODEL_FITTED)
         return model
 
     def build_model_for_prediction(self, scaled_data):
@@ -155,15 +154,14 @@ class StockPrediction:
         try:
             prediction_data_result = self.model.predict(data_to_make_on_prediction)
         except ValueError:
-            raise ValueError("One of the parameters change please delete the last model or change the flag that won't "
-                             "take the last model")
+            raise ValueError(MachineLogs.VALUE_ERRPR_IN_PREDICTION)
         return prediction_data_result
 
     def inverse_scalar_prediction_result(self, prediction_data_result):
         try:
             prediction = self.scalar.inverse_transform(prediction_data_result)
         except ValueError as error:
-            Logger.error(f"error in inversing scalar prediction data {error}")
+            Logger.error(MachineLogs.INVERSING_SCALAR_ERROR.format(error=error))
             prediction = self.scalar.inverse_transform(
                 np.reshape(
                     prediction_data_result, (prediction_data_result.shape[0],
