@@ -36,6 +36,8 @@ class StockPrediction:
         self.ticker = ticker
         self.start = START
         self.end = END
+        self.test_start = TEST_START
+        self.test_end = TEST_END
         self.prediction_day = PREDICTION_DAY
         self.prediction_days = PREDICTION_DAYS
         self.epochs = EPOCHS
@@ -70,7 +72,8 @@ class StockPrediction:
 
     def build_data(self):
         plain_data = self.get_data_for_fitting()
-        scaled_data = self.scale_data(plain_data)
+        one_array_data = ModelDataHandler.one_array_data(plain_data)
+        scaled_data = self.scale_data(one_array_data)
         return scaled_data
 
     def prepare_data_for_model(self, scaled_data):
@@ -187,4 +190,20 @@ class StockPrediction:
         self.build_model_for_prediction(scaled_data)
         predicted_price = self.predict_data(scaled_data)
         return predicted_price
+
+    def generate_test_model_input(self):
+        test_data = ModelDataHandler.get_data_from_yahoo(self.ticker, self.test_start, self.test_end)
+        return self.scalar.transform(test_data.reshape(-1, 1))
+
+    def get_test_data(self):
+        model_inputs = self.generate_test_model_input()
+        actual_data = []
+        x_test = []
+        length = len(X_VALUES)
+        delta = length * self.prediction_days
+        for i in range(delta, len(model_inputs) - ((self.prediction_day - 1) * length), length):
+            x_test.append(model_inputs[i - delta: i, 0])
+            actual_data.append(model_inputs[i - self.predict_constant: i - self.predict_constant + (
+                    self.prediction_day * length): length, 0][0])
+        return x_test, actual_data
 
