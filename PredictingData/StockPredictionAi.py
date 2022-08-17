@@ -104,12 +104,6 @@ class StockPrediction:
         x_train.shape[0] = length of big array 
 
         x_train[n] = [x_train[n][0], x_train[n][1], ... x_train[n][prediction_days]]"""
-        ModelDataHandler.check_prepared_data_for_model(x_train, y_train, self.prediction_day)
-        x_train, y_train = np.array(x_train), np.array(y_train).reshape(-1, 1)
-        """  x_train.shape[0] = the length of the array, x_train.shape[1] =  prediction days 
-         means to create a shape with length of x_train.len and width of prediction days on one dimension
-        """
-        x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
         return x_train, y_train
 
     def build_model_layers(self, x_train) -> Sequential:
@@ -138,6 +132,8 @@ class StockPrediction:
         if self.model is not None:
             return
         x_train, y_train = self.prepare_data_for_model(scaled_data)
+        ModelDataHandler.check_prepared_data_for_model(x_train, y_train, self.prediction_day)
+        x_train, y_train = ModelDataHandler.reshape_trains(x_train, y_train)
         model_before_fitting = self.build_model_layers(x_train)
         self.model = self.fit_model_x_y_trains(x_train, y_train, model_before_fitting)
 

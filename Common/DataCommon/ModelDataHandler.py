@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from yahoofinancials import YahooFinancials
 from Logger import Logger
@@ -37,3 +38,12 @@ def check_prepared_data_for_model(x_train, y_train, predict_constant=1):
         assertion = y_train[i] == x_train[i + predict_constant][-1]
         "Hope som much it works that way "
         assert assertion, FAIL_TO_PREPARE_DATA_MESSAGE.format(i=i)
+
+
+def reshape_trains(x_train, y_train):
+    x_train, y_train = np.array(x_train), np.array(y_train).reshape(-1, 1)
+    """  x_train.shape[0] = the length of the array, x_train.shape[1] =  prediction days 
+     means to create a shape with length of x_train.len and width of prediction days on one dimension
+    """
+    x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
+    return x_train, y_train
