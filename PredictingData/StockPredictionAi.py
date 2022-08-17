@@ -203,7 +203,7 @@ class StockPrediction:
         delta = length * self.prediction_days
         for i in range(delta, len(model_inputs) - ((self.prediction_day - 1) * length), length):
             x_test.append(model_inputs[i - delta: i, 0])
-            actual_data.append(model_inputs[i - self.predict_constant: i - self.predict_constant + (
+            actual_data.append(model_inputs[i - self.predict_constant * 2: i - self.predict_constant * 2 + (
                     self.prediction_day * length): length, 0][0])
         return x_test, actual_data
-
+    
