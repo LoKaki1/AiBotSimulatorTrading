@@ -48,9 +48,10 @@ class StockPrediction:
 
     def get_data_for_fitting(self):
         """
-        :return: Historical data of a stock and divide it into lists that each contains [[open, close, high, low], [...], ...]
+        :return: Historical data of a stock and divide it into lists that each
+         contains [[open, close, high, low], [...], ...]
         """
-        return ModelDataHandler.get_data_from_yahoo(self.ticker, self.start, self.end)
+        return ModelDataHandler.get_historical_data(self.ticker, self.start, self.end)
 
     def scale_data(self, one_array_data_to_train: list):
         """
@@ -205,5 +206,25 @@ class StockPrediction:
             x_test.append(model_inputs[i - delta: i, 0])
             actual_data.append(model_inputs[i - self.predict_constant * 2: i - self.predict_constant * 2 + (
                     self.prediction_day * length): length, 0][0])
+        x_test, actual_data = ModelDataHandler.reshape_trains(x_test, actual_data)
         return x_test, actual_data
-    
+
+    def test_model(self):
+        """ Test Model
+        This part is seeing how accuracy the model on a data that exists but wasn't on it's training"""
+        x_test, actual_data = self.get_test_data()
+        actual_data = self.scalar.inverse_transform(actual_data)
+        predicted_prices = self.model.predict(x_test)
+
+        """ Check len of data is same in both of them """
+        self.scalar.inverse_transform(predicted_prices), actual_data
+        return predicted_prices, actual_data
+
+
+def main():
+    ticker = 'NIO'
+    stock_prediction = StockPrediction(ticker)
+    print(stock_prediction.predict_next_price())
+
+if __name__ == '__main__':
+    main()
