@@ -1,6 +1,6 @@
 import pandas as pd
 from yahoofinancials import YahooFinancials
-from Common.Logger import Logger
+from Logger import Logger
 
 """ My Constants """
 X_VALUES = ['open', 'low', 'high', 'close']

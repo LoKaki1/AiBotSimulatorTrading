@@ -5,7 +5,8 @@ from tensorflow.keras.models import Sequential
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.backend import clear_session
 from Common.DataCommon import ModelDataHandler
-from Common.Logger import Logger
+from Logger import Logger
+from PredictingData.Logs import MachineLogs
 
 """ My Constants """
 
@@ -124,14 +125,14 @@ class StockPrediction:
             Dense(self.prediction_day)
         ])
         # In the future please put the logs in different file
-        Logger.info(f"Model was created 😀")
+        Logger.info(MachineLogs.BUILD_MODEL_LAYERS)
         model.summary()
         return model
 
     def fit_model_x_y_trains(self, x_train: np.ndarray, y_train: np.ndarray, model: Sequential):
         model.fit(x_train, y_train,
                   epochs=self.epochs, batch_size=self.batch_size)
-        Logger.info("Model was fitted now its ready to make some predictions")
+        Logger.info()
         return model
 
     def build_model_for_prediction(self, scaled_data):

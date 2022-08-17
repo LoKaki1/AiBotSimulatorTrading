@@ -16,7 +16,7 @@ def check_authentication():
 @app.route('/predict', methods=['GET'])
 def get_predict_data():
     print(f"predicting data for - {request.args}")
-    return json.dumps({"data": "hi"})
+    return json.dumps({"data": f"Predicted data for ticker - {request.args.get('ticker')} "})
 
 
 if __name__ == '__main__':
