@@ -29,7 +29,7 @@ def get_data_from_yahoo(ticker, start, end):
 def one_array_data(data):
     first = list(data.keys())[0]
     return [
-        data[state][index] for index, stock_price in enumerate(data[first]) for state in data
+        data[state][index] for index, stock_price in enumerate(data[first]) for state in X_VALUES
     ]
 
 

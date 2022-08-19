@@ -1,6 +1,7 @@
 import datetime as dt
 import numpy as np
-from tensorflow.keras.layers import Dense, LSTM, Dropout
+from keras.layers import Dense
+from tensorflow.keras.layers import  LSTM, Dropout
 from tensorflow.keras.models import Sequential
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.backend import clear_session
@@ -60,7 +61,7 @@ class StockPrediction:
         """
         """ Making data without lists because scaled data cant
          use lists so data before = [[1, 2, 3, ...], [2, 3, 4, ...] ...] data after = [1, 2, 3, 2, 3, 4 ...] """
-
+        print(one_array_data_to_train)
         data = np.array(one_array_data_to_train).reshape(-1, 1)
 
         "Reshape so it matches with scalar api"
@@ -108,6 +109,7 @@ class StockPrediction:
         x_train.shape[0] = length of big array 
 
         x_train[n] = [x_train[n][0], x_train[n][1], ... x_train[n][prediction_days]]"""
+        print(x_train[-1], y_train[-1])
         return x_train, y_train
 
     def build_model_layers(self, x_train) -> Sequential:
@@ -119,14 +121,17 @@ class StockPrediction:
             Dropout(DROPOUT_UNITS),
             LSTM(self.units, return_sequences=True),
             Dropout(DROPOUT_UNITS),
+            Dense(1)
         ])
         model.compile(optimizer='adam', loss='mean_squared_error')
-        # In the future please put the logs in different file
+
         Logger.info(MachineLogs.BUILD_MODEL_LAYERS)
         model.summary()
         return model
 
     def fit_model_x_y_trains(self, x_train: np.ndarray, y_train: np.ndarray, model: Sequential):
+        print(x_train[-1])
+        print(y_train[-1])
         model.fit(x_train, y_train,
                   epochs=self.epochs, batch_size=self.batch_size)
         Logger.info(MachineLogs.MODEL_FITTED)
@@ -139,27 +144,36 @@ class StockPrediction:
         ModelDataHandler.check_prepared_data_for_model(x_train, y_train, self.prediction_day)
         x_train, y_train = ModelDataHandler.reshape_trains(x_train, y_train)
         model_before_fitting = self.build_model_layers(x_train)
-        self.model = self.fit_model_x_y_trains(x_train, y_train, model_before_fitting)
+        model = self.fit_model_x_y_trains(x_train, y_train, model_before_fitting)
+        return model
 
     def _get_last_part_of_scaled_data(self, model_inputs):
-        data_to_make_on_prediction = [model_inputs[len(model_inputs) -
-                                                   self.prediction_days * len(X_VALUES): len(
-                                                    model_inputs) + self.prediction_day, 0]]
-        data_to_make_on_prediction = np.reshape((np_data := np.array(data_to_make_on_prediction)),
-                                                (np_data.shape[0],
-                                                 np_data.shape[1], 1))
-        return data_to_make_on_prediction
+        print(model_inputs[-1])
+        real_data = [model_inputs[len(model_inputs) -
+                                  self.prediction_days * len(X_VALUES): len(model_inputs) + self.prediction_day, 0]]
+        real_data = np.array(real_data)
+        return  np.reshape(real_data, (real_data.shape[0], real_data.shape[1], 1))
+        # data_to_make_on_prediction = [model_inputs[len(model_inputs) -
+        #                                            self.prediction_days * len(X_VALUES): len(
+        #                                             model_inputs) + self.prediction_day, 0]]
+        # data_to_make_on_prediction = np.reshape((np_data := np.array(data_to_make_on_prediction)),
+        #                                         (np_data.shape[0],
+        #                                          np_data.shape[1], 1))
+        # return data_to_make_on_prediction
 
     def predict_data_on_scaled_data(self, data_to_make_on_prediction):
         try:
             prediction_data_result = self.model.predict(data_to_make_on_prediction)
+            print(prediction_data_result)
         except ValueError:
             raise ValueError(MachineLogs.VALUE_ERRPR_IN_PREDICTION)
         return prediction_data_result
 
     def inverse_scalar_prediction_result(self, prediction_data_result):
         try:
-            prediction = self.scalar.inverse_transform(prediction_data_result)
+            prediction = self.scalar.inverse_transform(prediction_data_result[-1])
+            Logger.info("Succeed in inverse scalar prediction result")
+            Logger.info(prediction[-1])
         except ValueError as error:
             Logger.error(MachineLogs.INVERSING_SCALAR_ERROR.format(error=error))
             prediction = self.scalar.inverse_transform(
@@ -188,7 +202,7 @@ class StockPrediction:
 
     def predict_next_price(self):
         scaled_data = self.build_data()
-        self.build_model_for_prediction(scaled_data)
+        self.model = self.build_model_for_prediction(scaled_data)
         predicted_price = self.predict_data(scaled_data)
         return predicted_price
 
