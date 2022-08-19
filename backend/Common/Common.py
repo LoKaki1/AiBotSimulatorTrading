@@ -192,8 +192,8 @@ import re
 #
 # def open_json(path: str) -> dict:
 #     with open(path, 'r') as file:
-#         json_data = json.loads(file.read())
-#     return json_data
+#         JSON_DATA = json.loads(file.read())
+#     return JSON_DATA
 #
 #
 # def write_in_json(path: str, data: [dict, list]):

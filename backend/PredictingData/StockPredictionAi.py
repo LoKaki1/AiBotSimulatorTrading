@@ -204,7 +204,7 @@ class StockPrediction:
         scaled_data = self.build_data()
         self.model = self.build_model_for_prediction(scaled_data)
         predicted_price = self.predict_data(scaled_data)
-        return predicted_price
+        return float(predicted_price[-1][-1])
 
     def generate_test_model_input(self):
         test_data = ModelDataHandler.get_data_from_yahoo(self.ticker, self.test_start, self.test_end)
@@ -238,7 +238,7 @@ class StockPrediction:
 def main():
     ticker = 'NIO'
     stock_prediction = StockPrediction(ticker)
-    print(stock_prediction.predict_next_price())
+
 
 if __name__ == '__main__':
     main()
