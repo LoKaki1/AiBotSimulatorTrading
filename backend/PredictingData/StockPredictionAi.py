@@ -119,8 +119,8 @@ class StockPrediction:
             Dropout(DROPOUT_UNITS),
             LSTM(self.units, return_sequences=True),
             Dropout(DROPOUT_UNITS),
-            Dense(self.prediction_day)
         ])
+        model.compile(optimizer='adam', loss='mean_squared_error')
         # In the future please put the logs in different file
         Logger.info(MachineLogs.BUILD_MODEL_LAYERS)
         model.summary()
