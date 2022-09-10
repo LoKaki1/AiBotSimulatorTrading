@@ -130,8 +130,6 @@ class StockPrediction:
         return model
 
     def fit_model_x_y_trains(self, x_train: np.ndarray, y_train: np.ndarray, model: Sequential):
-        print(x_train[-1])
-        print(y_train[-1])
         model.fit(x_train, y_train,
                   epochs=self.epochs, batch_size=self.batch_size)
         Logger.info(MachineLogs.MODEL_FITTED)
