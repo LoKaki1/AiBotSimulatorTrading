@@ -43,7 +43,6 @@ def get_user_watchlist():
 @app.route('/stock/chart/daily', methods=['GET'])
 def get_stock_daily_chart():
     stock = request.args.get(TICKER, DEFAULT_STOCK)
-    print(stock)
     Logger.info(f"Getting daily chart for stock {stock}")
     return f"daily prices for stock - {stock}"
 
