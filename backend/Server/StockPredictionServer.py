@@ -61,6 +61,5 @@ def get_stock_current_price():
     return f"current price for stock  - {stock}"
 
 
-
 if __name__ == '__main__':
     app.run()

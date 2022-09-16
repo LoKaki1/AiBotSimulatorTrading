@@ -62,7 +62,6 @@ class StockPrediction:
         """
         """ Making data without lists because scaled data cant
          use lists so data before = [[1, 2, 3, ...], [2, 3, 4, ...] ...] data after = [1, 2, 3, 2, 3, 4 ...] """
-        print(one_array_data_to_train)
         data = np.array(one_array_data_to_train).reshape(-1, 1)
 
         "Reshape so it matches with scalar api"
@@ -110,7 +109,6 @@ class StockPrediction:
         x_train.shape[0] = length of big array 
 
         x_train[n] = [x_train[n][0], x_train[n][1], ... x_train[n][prediction_days]]"""
-        print(x_train[-1], y_train[-1])
         return x_train, y_train
 
     def build_model_layers(self, x_train) -> Sequential:
@@ -147,18 +145,10 @@ class StockPrediction:
         return model
 
     def _get_last_part_of_scaled_data(self, model_inputs):
-        print(model_inputs[-1])
         real_data = [model_inputs[len(model_inputs) -
                                   self.prediction_days * len(X_VALUES): len(model_inputs) + self.prediction_day, 0]]
         real_data = np.array(real_data)
-        return  np.reshape(real_data, (real_data.shape[0], real_data.shape[1], 1))
-        # data_to_make_on_prediction = [model_inputs[len(model_inputs) -
-        #                                            self.prediction_days * len(X_VALUES): len(
-        #                                             model_inputs) + self.prediction_day, 0]]
-        # data_to_make_on_prediction = np.reshape((np_data := np.array(data_to_make_on_prediction)),
-        #                                         (np_data.shape[0],
-        #                                          np_data.shape[1], 1))
-        # return data_to_make_on_prediction
+        return np.reshape(real_data, (real_data.shape[0], real_data.shape[1], 1))
 
     def predict_data_on_scaled_data(self, data_to_make_on_prediction):
         try:
