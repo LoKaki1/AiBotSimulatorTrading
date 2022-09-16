@@ -6,9 +6,7 @@ import PredictionComponent from "./Prediction/PredictionComponent";
 function App() {
   return (
     <FatherHook>
-      <div>
         <PredictionComponent/>
-      </div>
     </FatherHook>
   );
 }

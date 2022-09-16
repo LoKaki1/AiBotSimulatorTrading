@@ -1,4 +1,4 @@
-import React, { useContext, useState, Dispatch, SetStateAction, createContext } from 'react'
+import { useContext, useState, Dispatch, SetStateAction, createContext } from 'react'
 
 type ContextType = {
     ticker: string,

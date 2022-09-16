@@ -19,9 +19,9 @@ def check_authentication():
 
 @app.after_request
 def parse_data(response: Response):
-    result = Response(json.dumps({
-        JSON_DATA: response.data.decode()
-    }))
+    result = Response(
+        json.dumps(response.get_json())
+    )
     return result
 
 
