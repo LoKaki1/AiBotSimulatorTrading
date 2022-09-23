@@ -1,3 +1,5 @@
+import json
+
 import numpy as np
 import pandas as pd
 from yahoofinancials import YahooFinancials
@@ -47,3 +49,8 @@ def reshape_trains(x_train, y_train):
     """
     x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
     return x_train, y_train
+
+
+def open_json(json_path: str):
+    with open(json_path, 'r') as json_file:
+        return json.load(json_file)

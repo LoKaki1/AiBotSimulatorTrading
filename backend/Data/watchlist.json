@@ -1,0 +1,6 @@
+[
+  {"username":  "testUsername",
+    "watchlist": [
+      {"ticker":  "NIO", "price": 6, "predictedPrice": 6}
+  ]}
+]

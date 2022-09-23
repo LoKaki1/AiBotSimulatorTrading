@@ -1,10 +1,12 @@
-import React from "react";
 import { TickerProvider } from "./Context/TickerContext";
+import { WatchlistProvider } from "./Context/WatchlistContext";
 
 export default function FatherHook({ children }: { children: any }) {
   return (
     <>
-      <TickerProvider>{children}</TickerProvider>
+      <TickerProvider>
+        <WatchlistProvider>{children}</WatchlistProvider>
+      </TickerProvider>
     </>
   );
 }

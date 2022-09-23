@@ -3,6 +3,7 @@ import { Ticker } from '../../Common/Types/TickerType';
 
 type ContextType = {
     watchlist: Ticker[],
+    setWatchlist: Dispatch<SetStateAction<Ticker[]>>,
 } | any
 
 const WatchlistContext = createContext<ContextType>({});

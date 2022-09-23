@@ -1,6 +1,7 @@
 import json
 from typing import Union
 
+from PredictingData import PredictingDataForServer
 from PredictingData.Factory.PredictionFactory import predict_data_for_stock
 from flask import Flask, request, Response
 from flask_cors import CORS
@@ -37,7 +38,8 @@ def get_predict_data():
 def get_user_watchlist():
     username = request.headers.get(USERNAME, DEFAULT_USER)
     Logger.info(f"Getting watchlist for user {username}")
-    return f"Getting user watchlist {username}"
+    user_watchlist = PredictingDataForServer.predicting_user_watchlist(username)
+    return {'watchlist': user_watchlist}
 
 
 @app.route('/stock/chart/daily', methods=['GET'])
