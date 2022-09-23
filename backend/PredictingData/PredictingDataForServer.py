@@ -16,7 +16,7 @@ def predicting_user_watchlist(user: str):
 
 
 def _add_id(obj):
-    obj['id'] = id(obj)
+    obj['id'] = id(obj) if 'id' not in obj else obj['id']
     return obj
 
 
@@ -25,3 +25,8 @@ def __get_user_watchlist(watchlist_data, user):
     user_watchlist = [_add_id(ticker) for ticker in user_watchlist]
     return user_watchlist
 
+
+def update_watchlist(user, ticker_object):
+    user_watchlist = _get_user_watchlist(user)
+    user_watchlist = list(map(lambda x: ticker_object if x['ticker'] == ticker_object['ticker'] else x,
+                         user_watchlist))

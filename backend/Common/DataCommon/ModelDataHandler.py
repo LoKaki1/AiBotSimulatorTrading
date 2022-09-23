@@ -54,3 +54,18 @@ def reshape_trains(x_train, y_train):
 def open_json(json_path: str):
     with open(json_path, 'r') as json_file:
         return json.load(json_file)
+
+
+def write_in_json(path: str, data: [dict, list]):
+    with open(path) as fp:
+        json_object = json.load(fp)
+
+    json_object.update(data)
+    write_json(path, json_object)
+
+
+def write_json(path, data):
+    with open(path, 'w') as json_file:
+        json.dump(data, json_file,
+                  indent=4,
+                  separators=(',', ': '))
