@@ -10,5 +10,12 @@ def predicting_user_watchlist(user: str):
     return user_watchlist
 
 
+def _add_id(obj):
+    obj['id'] = id(obj)
+    return obj
+
+
 def get_user_watchlist(watchlist_data, user):
-    return list(filter(lambda x: x['username'] == user, watchlist_data))[0]['watchlist']
+    user_watchlist = dict(list(filter(lambda x: x['username'] == user, watchlist_data))[0])['watchlist']
+    user_watchlist = [_add_id(ticker) for ticker in user_watchlist]
+    return user_watchlist
