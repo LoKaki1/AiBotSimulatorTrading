@@ -5,6 +5,7 @@ import "./WatchlistGrid.css";
 import axios from "axios";
 import { WATCHLIST_URL } from "../../Common/URLS";
 import { headers } from "../../Common/headers";
+import { useWatchlist } from "../../Hooks/Context/WatchlistContext";
 
 const columns: GridColumns = [
   {
@@ -33,26 +34,32 @@ const columns: GridColumns = [
 ];
 
 export default function WatchlistGrid() {
-  const [tableContent, settableContent] = useState<Ticker[]>([]);
+  const {watchlist, setWatchlist} = useWatchlist();
 
   const getUserWatchlist = async () => {
     const response = await axios.get(WATCHLIST_URL, { headers: headers });
     const watchlist = response.data.watchlist;
-    console.log(response);
-    console.log(watchlist);
-    settableContent(watchlist);
+    setWatchlist(watchlist);
   };
 
   useEffect(() => {
     getUserWatchlist();
   }, []);
+
   return (
     <div className="watchlist">
       <DataGrid
-        style={{ fontSize: 18 }}
-        rows={tableContent}
+        style={{
+          fontSize: 18,
+          border: "none",
+          minHeight: '600px'
+        }}
+        rows={watchlist}
         columns={columns}
         autoHeight
+        rowsPerPageOptions={[-1]}
+        pagination={undefined}
+        hideFooter={true}
       />
     </div>
   );

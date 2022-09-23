@@ -4,9 +4,9 @@ import PredictionTickerInput from "./PredictionParts/PredictionTickerInput";
 
 export default function PredictionComponent() {
   return (
-    <div>
-      <PredictionButton />
+    <div style={{paddingBottom: 5}}>
       <PredictionTickerInput />
+      <PredictionButton />
     </div>
   );
 }

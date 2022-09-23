@@ -39,7 +39,7 @@ def get_user_watchlist():
     username = request.headers.get(USERNAME, DEFAULT_USER)
     Logger.info(f"Getting watchlist for user {username}")
     user_watchlist = PredictingDataForServer.predicting_user_watchlist(username)
-    return {'watchlist': user_watchlist }
+    return {'watchlist': user_watchlist}
 
 
 @app.route('/stock/chart/daily', methods=['GET'])
@@ -58,9 +58,15 @@ def get_stock_interday_chart():
 
 @app.route('/stock/current_price', methods=['GET'])
 def get_stock_current_price():
-    stock = request.headers.get(TICKER, DEFAULT_STOCK)
+    stock = request.args.get(TICKER, DEFAULT_STOCK)
     Logger.info(f"current price for stock  {stock}")
-    return f"current price for stock  - {stock}"
+    return {"currentPrice": 6}
+
+
+@app.route('/prediction/ticker_object')
+def get_stock_object():
+    ticker = request.args.get(TICKER, DEFAULT_STOCK)
+    predicted_price = predict_data_for_stock(ticker)
 
 
 if __name__ == '__main__':
