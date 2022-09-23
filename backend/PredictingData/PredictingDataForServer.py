@@ -1,4 +1,4 @@
-from Common.DataCommon.ModelDataHandler import open_json
+from Common.DataCommon.ModelDataHandler import open_json, write_in_json
 
 WATCHLIST_PATH = '../Data/watchlist.json'
 
@@ -10,7 +10,6 @@ def _get_user_watchlist(user: str):
 
 
 def predicting_user_watchlist(user: str):
-
     # Todo Literly predict the data
     return _get_user_watchlist(user)
 
@@ -29,4 +28,5 @@ def __get_user_watchlist(watchlist_data, user):
 def update_watchlist(user, ticker_object):
     user_watchlist = _get_user_watchlist(user)
     user_watchlist = list(map(lambda x: ticker_object if x['ticker'] == ticker_object['ticker'] else x,
-                         user_watchlist))
+                              user_watchlist))
+    write_in_json(WATCHLIST_PATH, user_watchlist)
