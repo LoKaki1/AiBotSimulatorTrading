@@ -4,7 +4,7 @@ import PredictionTickerInput from "./PredictionParts/PredictionTickerInput";
 
 export default function PredictionComponent() {
   return (
-    <div style={{paddingBottom: 5}}>
+    <div style={{paddingBottom: 5, alignContent: 'center'}}>
       <PredictionTickerInput />
       <PredictionButton />
     </div>

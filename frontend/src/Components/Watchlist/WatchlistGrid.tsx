@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Ticker } from "../../Common/Types/TickerType";
 import { DataGrid, GridColumns } from "@mui/x-data-grid";
 import "./WatchlistGrid.css";
@@ -37,9 +37,14 @@ export default function WatchlistGrid() {
   const {watchlist, setWatchlist} = useWatchlist();
 
   const getUserWatchlist = async () => {
-    const response = await axios.get(WATCHLIST_URL, { headers: headers });
-    const watchlist = response.data.watchlist;
-    setWatchlist(watchlist);
+    try {
+      const response = await axios.get(WATCHLIST_URL, { headers: headers });
+      const watchlist = response.data.watchlist;
+      setWatchlist(watchlist);
+    }
+    catch(err) {
+      console.log(`Something went wrong in getting watchlist, ${err}`)
+    }
   };
 
   useEffect(() => {

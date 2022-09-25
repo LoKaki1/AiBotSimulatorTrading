@@ -1,11 +1,12 @@
 import json
-from typing import Union
 
 from PredictingData import PredictingDataForServer
+from PredictingData.Factory import TickerObjectFactory
 from PredictingData.Factory.PredictionFactory import predict_data_for_stock
 from flask import Flask, request, Response
 from flask_cors import CORS
 from Logger import Logger
+from PredictingData.PredictingDataForServer import update_watchlist
 from ServerKeysConstants import USERNAME, DEFAULT_STOCK, TICKER, DEFAULT_USER
 
 app = Flask(__name__)
@@ -66,7 +67,11 @@ def get_stock_current_price():
 @app.route('/prediction/ticker_object')
 def get_stock_object():
     ticker = request.args.get(TICKER, DEFAULT_STOCK)
-    predicted_price = predict_data_for_stock(ticker)
+    username = request.headers.get(USERNAME, DEFAULT_USER)
+    ticker_object = TickerObjectFactory.create_ticker_object(ticker)
+    update_watchlist(username, ticker_object)
+    return ticker_object
+
 
 
 if __name__ == '__main__':

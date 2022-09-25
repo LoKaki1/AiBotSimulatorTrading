@@ -1,6 +1,13 @@
 [
-  {"username":  "testUsername",
-    "watchlist": [
-      {"ticker":  "NIO", "price": 6, "predictedPrice": 6}
-    ]}
+    {
+        "username": "testUsername",
+        "watchlist": [
+            {
+                "ticker": "NIO",
+                "price": 17.6,
+                "predictedPrice": 20.18,
+                "id": 2321251271280
+            }
+        ]
+    }
 ]
