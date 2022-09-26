@@ -1,4 +1,5 @@
 import json
+from typing import Union, Any
 
 import numpy as np
 import pandas as pd
@@ -57,20 +58,19 @@ def open_json(json_path: str):
 
 
 def write_in_json(path: str, data: [dict, list]):
-    with open(path) as fp:
-        json_object = json.load(fp)
-    json_object = _data_handler(json_object, data)
+    json_object = open_json(path)
+    json_object.update(data)
     write_json(path, json_object)
 
 
-def _data_handler(json_object, data):
-    strategies = {
-        dict: lambda data_from_file, new_data_to_add: data_from_file.update(new_data_to_add),
-        list: lambda data_from_file, new_data_to_add: list(
-            map(lambda users_data: new_data_to_add if users_data['username'] == new_data_to_add['username'] else
-                users_data['username'], data_from_file))
-    }
-    return strategies[type(json_object)](json_object, data)
+def update_json_where(path: str, relevant_key: str, value: Any, data: Union[dict, list, bytes]):
+    file_data = open_json(path)
+    result_data = list(
+        map(
+            lambda x: data if x[relevant_key] == value else x, file_data
+        )
+    )
+    write_json(path, result_data)
 
 
 def write_json(path, data):

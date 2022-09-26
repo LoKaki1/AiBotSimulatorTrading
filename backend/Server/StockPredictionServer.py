@@ -73,6 +73,5 @@ def get_stock_object():
     return ticker_object
 
 
-
 if __name__ == '__main__':
     app.run()

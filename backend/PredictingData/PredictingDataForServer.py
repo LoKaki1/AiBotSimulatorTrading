@@ -1,4 +1,4 @@
-from Common.DataCommon.ModelDataHandler import open_json, write_in_json
+from Common.DataCommon.ModelDataHandler import open_json, write_in_json, update_json_where
 
 WATCHLIST_PATH = '../Data/watchlist.json'
 
@@ -14,18 +14,28 @@ def predicting_user_watchlist(user: str):
     return _get_user_watchlist(user)
 
 
-def __get_user_watchlist(watchlist_data, user):
+def __get_user_watchlist(watchlist_data, user) -> list:
     user_watchlist = dict(list(filter(lambda x: x['username'] == user, watchlist_data))[0])['watchlist']
     return user_watchlist
 
 
 def update_watchlist(user, ticker_object):
     user_watchlist = _get_user_watchlist(user)
-    if not user_watchlist:
-        user_data = {"username": user, 'watchlist': [ticker_object]}
+    if ticker_object['ticker'] in (tickers := get_ticker_in_watchlist(user_watchlist)):
+        user_watchlist[tickers.index(ticker_object['ticker'])] = ticker_object
     else:
-        user_data = {"username": user,
-                     'watchlist': list(map(lambda x: ticker_object if x['ticker'] == ticker_object['ticker'] else x,
-                                                user_watchlist))}
-    write_in_json(WATCHLIST_PATH, user_data)
+        user_watchlist.append(ticker_object)
+    user_data = {
+        "username": user,
+        "watchlist": user_watchlist
+    }
 
+    update_json_where(WATCHLIST_PATH, 'username', user, user_data)
+
+
+def get_ticker_in_watchlist(watchlist: list) -> list:
+    return list(
+        map(
+         lambda ticker_object: ticker_object['ticker'], watchlist
+        )
+    )
