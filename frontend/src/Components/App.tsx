@@ -4,7 +4,7 @@ import FatherHook from "../Hooks/FatherHook";
 import PredictionComponent from "./Prediction/PredictionComponent";
 import WatchlistGrid from "./Watchlist/WatchlistGrid";
 import "./App.css";
-import Loader from "./Loader/Loader";
+import Loader from "./Prediction/PredictionParts/PredictionInput/Loader/Loader";
 
 function App() {
   return (

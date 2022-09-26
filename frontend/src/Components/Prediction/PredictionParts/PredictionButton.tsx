@@ -7,7 +7,7 @@ import { getUserWatchlist } from "../../Watchlist/WatchlistCommon";
 import { useLoader } from "../../../Hooks/Context/LoaderContext";
 
 export default function PredictionButton() {
-  const { ticker } = useTicker();
+  const { ticker, setTicker } = useTicker();
   const { setWatchlist } = useWatchlist();
   const { setLoader } = useLoader();
 
@@ -15,6 +15,7 @@ export default function PredictionButton() {
     console.log(`sending ${ticker} to prediction🛸`);
     setLoader(true);
     await axios.get(`${TICKER_OBJECT_PREDICTION}?ticker=${ticker}`);
+    setTicker("");
   };
 
   const predictTicker = async () => {
