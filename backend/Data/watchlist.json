@@ -31,6 +31,12 @@
                 "price": 18.79,
                 "predictedPrice": "19.43",
                 "id": 2073633451248
+            },
+            {
+                "ticker": "AAPL",
+                "price": 150.31,
+                "predictedPrice": "146.71",
+                "id": 2073762760240
             }
         ]
     }

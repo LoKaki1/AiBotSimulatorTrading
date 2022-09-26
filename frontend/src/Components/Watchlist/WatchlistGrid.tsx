@@ -5,6 +5,7 @@ import "./WatchlistGrid.css";
 import axios from "axios";
 import { WATCHLIST_URL } from "../../Common/URLS";
 import { useWatchlist } from "../../Hooks/Context/WatchlistContext";
+import { getUserWatchlist } from "./WatchlistCommon";
 
 const columns: GridColumns = [
   {
@@ -32,21 +33,13 @@ const columns: GridColumns = [
   { field: "id", headerName: "ID", hide: true },
 ];
 
+
+
 export default function WatchlistGrid() {
   const { watchlist, setWatchlist } = useWatchlist();
 
-  const getUserWatchlist = async () => {
-    try {
-      const response = await axios.get(WATCHLIST_URL);
-      const watchlist = response.data.watchlist;
-      setWatchlist(watchlist);
-    } catch (err) {
-      console.log(`Something went wrong in getting watchlist, ${err}`);
-    }
-  };
-
   useEffect(() => {
-    getUserWatchlist();
+    getUserWatchlist(setWatchlist);
   }, []);
 
   return (
