@@ -1,9 +1,6 @@
 import { useEffect } from "react";
-import { Ticker } from "../../Common/Types/TickerType";
 import { DataGrid, GridColumns } from "@mui/x-data-grid";
 import "./WatchlistGrid.css";
-import axios from "axios";
-import { WATCHLIST_URL } from "../../Common/URLS";
 import { useWatchlist } from "../../Hooks/Context/WatchlistContext";
 import { getUserWatchlist } from "./WatchlistCommon";
 
@@ -40,7 +37,7 @@ export default function WatchlistGrid() {
 
   useEffect(() => {
     getUserWatchlist(setWatchlist);
-  }, []);
+  }, [setWatchlist]);
 
   return (
     <div className="watchlist">
