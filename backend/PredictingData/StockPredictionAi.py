@@ -1,10 +1,10 @@
 import datetime as dt
 import numpy as np
 from keras.layers import Dense
-from tensorflow.keras.layers import  LSTM, Dropout
-from tensorflow.keras.models import Sequential
+from keras.layers import  LSTM, Dropout
+from keras.models import Sequential
 from sklearn.preprocessing import MinMaxScaler
-from tensorflow.keras.backend import clear_session
+from keras.backend import clear_session
 from Common.DataCommon import ModelDataHandler
 from Logger import Logger
 from PredictingData.Logs import MachineLogs
@@ -153,7 +153,6 @@ class StockPrediction:
     def predict_data_on_scaled_data(self, data_to_make_on_prediction):
         try:
             prediction_data_result = self.model.predict(data_to_make_on_prediction)
-            print(prediction_data_result)
         except ValueError:
             raise ValueError(MachineLogs.VALUE_ERRPR_IN_PREDICTION)
         return prediction_data_result

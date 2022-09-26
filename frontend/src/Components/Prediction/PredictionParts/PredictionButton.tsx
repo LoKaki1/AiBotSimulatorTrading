@@ -13,7 +13,7 @@ export default function PredictionButton() {
   const sendToPrediction = async () => {
     console.log(`sending ${ticker} to prediction🛸`);
     await axios.get(TICKER_OBJECT_PREDICTION, {
-      headers,
+      headers: headers,
       params: {
         ticker: ticker,
       },
@@ -23,9 +23,10 @@ export default function PredictionButton() {
   const getWatchlistAfterPrediction = async () => {
     console.log(`getting watclist after prediction 😚`)
     const watchlistReponse = await axios.get(WATCHLIST_URL, {
-      headers,
+      headers: headers,
     });
-    const watchlist = watchlistReponse.data.watchList;
+    const watchlist = watchlistReponse.data.watchlist;
+    console.log(`result data from server ${watchlist}`)
     setWatchlist(watchlist);
   }
 
