@@ -7,7 +7,7 @@ from flask import Flask, request, Response
 from flask_cors import CORS
 from Logger import Logger
 from PredictingData.PredictingDataForServer import update_watchlist
-from ServerKeysConstants import USERNAME, DEFAULT_STOCK, TICKER, DEFAULT_USER
+from ServerKeysConstants import USERNAME, DEFAULT_STOCK, TICKER, DEFAULT_USER, AUTHENTICATION
 
 app = Flask(__name__)
 cors = CORS(app, support_credentials=True)
@@ -16,7 +16,7 @@ app.config['CORS_HEADERS'] = 'application/json'
 
 @app.before_request
 def check_authentication():
-    Logger.info(f"checking authentication.. {request.headers.get(USERNAME, DEFAULT_USER)}")
+    Logger.info(f"checking authentication.. {request.headers.get(AUTHENTICATION, DEFAULT_USER)}")
 
 
 @app.after_request
@@ -37,7 +37,7 @@ def get_predict_data():
 
 @app.route('/watchlist', methods=['GET'])
 def get_user_watchlist():
-    username = request.headers.get(USERNAME, DEFAULT_USER)
+    username = request.headers.get(AUTHENTICATION, DEFAULT_USER)
     Logger.info(f"Getting watchlist for user {username}")
     user_watchlist = PredictingDataForServer.predicting_user_watchlist(username)
     return {'watchlist': user_watchlist}
@@ -67,7 +67,7 @@ def get_stock_current_price():
 @app.route('/prediction/ticker_object')
 def get_stock_object():
     ticker = request.args.get(TICKER, DEFAULT_STOCK)
-    username = request.headers.get(USERNAME, DEFAULT_USER)
+    username = request.headers.get(AUTHENTICATION, DEFAULT_USER)
     ticker_object = TickerObjectFactory.create_ticker_object(ticker)
     update_watchlist(username, ticker_object)
     return ticker_object

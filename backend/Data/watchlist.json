@@ -25,6 +25,12 @@
                 "price": 10.96,
                 "predictedPrice": "11.08",
                 "id": 1974674997872
+            },
+            {
+                "ticker": "BIG",
+                "price": 18.79,
+                "predictedPrice": "19.43",
+                "id": 2073633451248
             }
         ]
     }

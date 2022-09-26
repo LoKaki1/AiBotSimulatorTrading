@@ -4,7 +4,6 @@ import { DataGrid, GridColumns } from "@mui/x-data-grid";
 import "./WatchlistGrid.css";
 import axios from "axios";
 import { WATCHLIST_URL } from "../../Common/URLS";
-import { headers } from "../../Common/headers";
 import { useWatchlist } from "../../Hooks/Context/WatchlistContext";
 
 const columns: GridColumns = [
@@ -34,16 +33,15 @@ const columns: GridColumns = [
 ];
 
 export default function WatchlistGrid() {
-  const {watchlist, setWatchlist} = useWatchlist();
+  const { watchlist, setWatchlist } = useWatchlist();
 
   const getUserWatchlist = async () => {
     try {
-      const response = await axios.get(WATCHLIST_URL, { headers: headers });
+      const response = await axios.get(WATCHLIST_URL);
       const watchlist = response.data.watchlist;
       setWatchlist(watchlist);
-    }
-    catch(err) {
-      console.log(`Something went wrong in getting watchlist, ${err}`)
+    } catch (err) {
+      console.log(`Something went wrong in getting watchlist, ${err}`);
     }
   };
 
@@ -57,7 +55,7 @@ export default function WatchlistGrid() {
         style={{
           fontSize: 18,
           border: "none",
-          minHeight: '600px'
+          minHeight: "600px",
         }}
         rows={watchlist}
         columns={columns}
