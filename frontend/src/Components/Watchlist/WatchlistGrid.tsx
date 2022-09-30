@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { DataGrid, GridColumns } from "@mui/x-data-grid";
+import { DataGrid, GridCellParams, GridColumns } from "@mui/x-data-grid";
 import "./WatchlistGrid.css";
 import { useWatchlist } from "../../Hooks/Context/WatchlistContext";
 import { getUserWatchlist } from "./WatchlistCommon";
@@ -19,7 +19,6 @@ const columns: GridColumns = [
     field: "price",
     align: "center",
     headerAlign: "center",
-
     flex: 1,
   },
   {

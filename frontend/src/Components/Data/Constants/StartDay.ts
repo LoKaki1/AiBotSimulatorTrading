@@ -1,0 +1,1 @@
+export const START_DAY = '2022-01-01';

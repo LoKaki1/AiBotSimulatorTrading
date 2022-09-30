@@ -2,7 +2,10 @@ import { GridRowParams } from "@mui/x-data-grid";
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import { CandleType } from "../../../Common/Types/CandleType";
-import { TICKER_DAILY_CAHRT } from "../../../Common/URLS";
+import { TICKER_DAILY_CAHRT, TICKER_INTERDAY_CAHRT } from "../../../Common/URLS";
+import { START_DAY } from "../Constants/StartDay";
+
+
 
 export const getDailyData = async (
     ticker: string,
@@ -10,9 +13,10 @@ export const getDailyData = async (
   ) => {
     console.log(`Getting from server data about ${ticker} ⚡`);
     const chartResponnse = await axios.get(
-      `${TICKER_DAILY_CAHRT}?ticker=${ticker}&start_day=2022-01-01`
+      `${TICKER_INTERDAY_CAHRT}?ticker=${ticker}&start_day=${START_DAY}`
     );
-    const chartData = chartResponnse.data.dailyData;
+    const chartData = chartResponnse.data.interdayData;
+    console.log(chartData)
     setHistoricalData(chartData);
     return chartData;
   };

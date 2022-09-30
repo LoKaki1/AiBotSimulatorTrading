@@ -1,14 +1,13 @@
 .chart {
-    background-color: rgba(192, 254, 230, 0.5);
+    background-color: rgba(24, 31, 104, 0.5);
     box-shadow: rgba(21, 49, 38, 0.5) 0 1px 30px;
     position: center;
-    left: 20%;    
 }
 
 .chart-container {
     width: 50%;
     height: 50%;
     position: absolute;
-    left: 30%;
-    bottom: 40%;
+    left: calc(30%);
+    bottom: calc(36% + 1%);
 }
