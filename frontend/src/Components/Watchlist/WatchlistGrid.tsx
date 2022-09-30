@@ -53,7 +53,7 @@ export default function WatchlistGrid() {
         rowsPerPageOptions={[-1]}
         pagination={undefined}
         hideFooter={true}
-        onRowClick={(row) => getDailyData(row, setHistoricalData)}
+        onRowClick={(row) => getDailyData(row.row.ticker, setHistoricalData)}
       />
     </div>
   );
