@@ -33,7 +33,6 @@ CLOSE_PREDICTION = 3
 class StockPrediction:
 
     def __init__(self, ticker, **kwargs):
-
         self.scalar = None
         self.ticker = ticker
         self.start = START

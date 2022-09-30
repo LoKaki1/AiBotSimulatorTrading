@@ -1,13 +1,15 @@
 import json
-
+from Common.DataCommon.ModelDataHandler import daily_candle_prices
 from PredictingData import PredictingDataForServer
+from PredictingData.StockPredictionAi import END
 from PredictingData.Factory import TickerObjectFactory
 from PredictingData.Factory.PredictionFactory import predict_data_for_stock
 from flask import Flask, request, Response
 from flask_cors import CORS
 from Logger import Logger
 from PredictingData.PredictingDataForServer import update_watchlist
-from ServerKeysConstants import USERNAME, DEFAULT_STOCK, TICKER, DEFAULT_USER, AUTHENTICATION
+from ServerKeysConstants import DEFAULT_STOCK, TICKER, DEFAULT_USER, AUTHENTICATION, START_DAY, \
+    DEFAULT_START_DAY
 
 app = Flask(__name__)
 cors = CORS(app, support_credentials=True)
@@ -45,9 +47,11 @@ def get_user_watchlist():
 
 @app.route('/stock/chart/daily', methods=['GET'])
 def get_stock_daily_chart():
-    stock = request.args.get(TICKER, DEFAULT_STOCK)
-    Logger.info(f"Getting daily chart for stock {stock}")
-    return f"daily prices for stock - {stock}"
+    ticker = request.args.get(TICKER, DEFAULT_STOCK)
+    start_day = request.args.get(START_DAY, DEFAULT_START_DAY)
+    Logger.info(f"Getting daily chart for stock {ticker}")
+    daily_data = daily_candle_prices(ticker, start_day, END)
+    return {"dailyData": daily_data}
 
 
 @app.route('/stock/chart/interday', methods=['GET'])

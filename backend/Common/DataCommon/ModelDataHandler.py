@@ -19,6 +19,17 @@ def get_historical_data(ticker, start, end):
         raise OSError("Problem in getting data please try to reconnect")
 
 
+def candle_data_from_raw_data(data: pd.DataFrame):
+    return [
+        [data[candle_part][index] for candle_part in X_VALUES] for _, index in enumerate(data[X_VALUES[0]])
+    ]
+
+
+def daily_candle_prices(ticker, start_price, end_price):
+    raw_data = get_historical_data(ticker, start_price, end_price)
+    return candle_data_from_raw_data(raw_data)
+
+
 def get_data_from_yahoo(ticker, start, end):
     return (pd.DataFrame(
         YahooFinancials(ticker).get_historical_price_data(

@@ -1,8 +1,10 @@
 import { useEffect } from "react";
-import { DataGrid, GridColumns } from "@mui/x-data-grid";
+import { DataGrid, GridColumns, GridRowParams } from "@mui/x-data-grid";
 import "./WatchlistGrid.css";
 import { useWatchlist } from "../../Hooks/Context/WatchlistContext";
 import { getUserWatchlist } from "./WatchlistCommon";
+import axios from "axios";
+import { TICKER_DAILY_CAHRT } from "../../Common/URLS";
 
 const columns: GridColumns = [
   {
@@ -30,7 +32,15 @@ const columns: GridColumns = [
   { field: "id", headerName: "ID", hide: true },
 ];
 
-
+const getDailyData = async (tickerRow: GridRowParams) => {
+  const ticker = tickerRow.row.ticker;
+  console.log(`Getting from server data about ${ticker} ⚡`);
+  const chartResponnse = await axios.get(
+    `${TICKER_DAILY_CAHRT}?ticker=${ticker}`
+  );
+  const chartData = chartResponnse.data;
+  console.log(chartData);
+};
 
 export default function WatchlistGrid() {
   const { watchlist, setWatchlist } = useWatchlist();
@@ -45,7 +55,7 @@ export default function WatchlistGrid() {
         style={{
           fontSize: 18,
           border: "none",
-          minHeight: "600px",
+          minHeight: "400px",
         }}
         rows={watchlist}
         columns={columns}
@@ -53,6 +63,7 @@ export default function WatchlistGrid() {
         rowsPerPageOptions={[-1]}
         pagination={undefined}
         hideFooter={true}
+        onRowClick={getDailyData}
       />
     </div>
   );
