@@ -2,7 +2,7 @@ import { GridRowParams } from "@mui/x-data-grid";
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import { CandleType } from "../../../Common/Types/CandleType";
-import { TICKER_DAILY_CAHRT, TICKER_INTERDAY_CAHRT } from "../../../Common/URLS";
+import { TICKER_DAILY_CAHRT } from "../../../Common/URLS";
 import { START_DAY } from "../Constants/StartDay";
 
 
