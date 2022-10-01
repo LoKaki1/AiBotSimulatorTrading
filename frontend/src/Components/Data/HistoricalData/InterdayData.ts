@@ -7,15 +7,15 @@ import { START_DAY } from "../Constants/StartDay";
 
 
 
-export const getDailyData = async (
+export const getInterdayData = async (
     ticker: string,
     setHistoricalData: Dispatch<SetStateAction<CandleType>>
   ) => {
     console.log(`Getting from server data about ${ticker} ⚡`);
     const chartResponnse = await axios.get(
-      `${TICKER_DAILY_CAHRT}?ticker=${ticker}&start_day=${START_DAY}`
+      `${TICKER_INTERDAY_CAHRT}?ticker=${ticker}`
     );
-    const chartData = chartResponnse.data.dailyData;
+    const chartData = chartResponnse.data.interdayData;
     setHistoricalData(chartData);
     return chartData;
   };

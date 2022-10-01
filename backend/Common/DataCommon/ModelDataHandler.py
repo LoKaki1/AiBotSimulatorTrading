@@ -1,9 +1,14 @@
 import json
+from datetime import datetime
 from typing import Union, Any
 
+import requests
 import numpy as np
 import pandas as pd
 from yahoofinancials import YahooFinancials
+
+from Common.DataCommon.YahooConstants import YAHOO_INTERDAY_API, USER_AGENT, USER_AGENT_VALUE
+from Common.DateCommon import genereate_dates_between_two_dates
 from Logger import Logger
 
 """ My Constants """
@@ -19,15 +24,26 @@ def get_historical_data(ticker, start, end):
         raise OSError("Problem in getting data please try to reconnect")
 
 
-def candle_data_from_raw_data(data: pd.DataFrame):
+def get_interday_data(ticker, interval, _range):
+    data = requests.get(YAHOO_INTERDAY_API.format(ticker=ticker, interval=interval, _range=_range),
+                        headers={USER_AGENT: USER_AGENT_VALUE})
+    data = data.json()['chart']['result'][0]['indicators']['quote'][0]
+    data = [{"y": [float(str(data[key][index])[:5]) for key in X_VALUES], "x": index} for index, _ in enumerate(data['close'])]
+    return data
+
+
+def  candle_data_from_raw_data(data: pd.DataFrame, start_date, end_date):
+    dates = genereate_dates_between_two_dates(start_date, end_date)
     return [
-        [data[candle_part][index] for candle_part in X_VALUES] for _, index in enumerate(data[X_VALUES[0]])
+        {"y": [float(str(data[candle_part][index])[:5])
+               for candle_part in X_VALUES], "x": dates[index]}
+        for index, _ in enumerate(data[X_VALUES[0]])
     ]
 
 
-def daily_candle_prices(ticker, start_price, end_price):
-    raw_data = get_historical_data(ticker, start_price, end_price)
-    return candle_data_from_raw_data(raw_data)
+def daily_candle_prices(ticker, start_date, end_date):
+    historical_data = get_historical_data(ticker, start_date, end_date)
+    return candle_data_from_raw_data(historical_data, start_date, end_date)
 
 
 def get_data_from_yahoo(ticker, start, end):
@@ -89,3 +105,6 @@ def write_json(path, data):
         json.dump(data, json_file,
                   indent=4,
                   separators=(',', ': '))
+
+
+print(get_interday_data('NIO', '1m', '1d'))
