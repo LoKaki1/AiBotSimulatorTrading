@@ -11,7 +11,6 @@ export default function CandleStickChart() {
   const [series, setSeries] = useState<any>([{ data: [] }]);
 
   useEffect(() => {
-    console.log(watchlist);
     getDailyData(watchlist[0]?.ticker ?? "NIO", setHistoricalData);
   }, []);
 

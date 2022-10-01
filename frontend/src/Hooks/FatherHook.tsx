@@ -17,7 +17,7 @@ export default function FatherHook({ children }: { children: any }) {
         <WatchlistProvider>
           <LoaderContextProvider>
             <HistoricalDataContextProvider>
-              <IntervalContextProvider>{children}</IntervalContextProvider>
+              {children}
             </HistoricalDataContextProvider>
           </LoaderContextProvider>
         </WatchlistProvider>

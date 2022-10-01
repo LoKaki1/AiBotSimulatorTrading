@@ -9,7 +9,7 @@ from flask_cors import CORS
 from Logger import Logger
 from PredictingData.PredictingDataForServer import update_watchlist
 from ServerKeysConstants import DEFAULT_STOCK, TICKER, DEFAULT_USER, AUTHENTICATION, START_DAY, \
-    DEFAULT_START_DAY
+    DEFAULT_START_DAY, INTERVAL, DEFAULT_INTERVAL, RANGE, DEFAULT_RANGE
 
 app = Flask(__name__)
 cors = CORS(app, support_credentials=True)
@@ -57,9 +57,11 @@ def get_stock_daily_chart():
 @app.route('/stock/chart/interday', methods=['GET'])
 def get_stock_interday_chart():
     ticker = request.args.get(TICKER, DEFAULT_STOCK)
-    interval = request.args.get(TICKER, DEFAULT_STOCK)
+    interval = request.args.get(INTERVAL, DEFAULT_INTERVAL)
+    _range = request.args.get(RANGE, DEFAULT_RANGE)
+    print(f"ticker = {ticker}", f"{interval=}", f"{_range}", sep='\n')
     Logger.info(f"Getting interday chart for stock {ticker}")
-    interday_data = get_interday_data(ticker, '1m', '1d')
+    interday_data = get_interday_data(ticker, interval, _range)
     return {"interdayData": interday_data}
 
 

@@ -7,7 +7,7 @@ type ContextType = {
 
 const TickerContext = createContext<ContextType>({});
 export function TickerProvider({ children } : {children : any}) {
-  const [ticker, setTicker] = useState<string>('');
+  const [ticker, setTicker] = useState<string>('NIO');
     return (
         <TickerContext.Provider value={{ ticker, setTicker }}>
               {children}

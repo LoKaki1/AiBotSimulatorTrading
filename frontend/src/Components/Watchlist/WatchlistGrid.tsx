@@ -5,6 +5,7 @@ import { useWatchlist } from "../../Hooks/Context/WatchlistContext";
 import { getUserWatchlist } from "./WatchlistCommon";
 import { useHistoricalData } from "../../Hooks/Context/HistoricalDataContext";
 import { getDailyData } from "../Data/HistoricalData/DailyData";
+import { useTicker } from "../../Hooks/Context/TickerContext";
 
 const columns: GridColumns = [
   {
@@ -34,6 +35,7 @@ const columns: GridColumns = [
 export default function WatchlistGrid() {
   const { watchlist, setWatchlist } = useWatchlist();
   const { setHistoricalData } = useHistoricalData();
+  const { setTicker } = useTicker();
   useEffect(() => {
     getUserWatchlist(setWatchlist);
   }, [setWatchlist]);
@@ -43,8 +45,6 @@ export default function WatchlistGrid() {
       <DataGrid
         style={{
           fontSize: 18,
-          border: "none",
-          minHeight: "900px",
         }}
         rows={watchlist}
         columns={columns}
@@ -52,7 +52,7 @@ export default function WatchlistGrid() {
         rowsPerPageOptions={[-1]}
         pagination={undefined}
         hideFooter={true}
-        onRowClick={(row) => getDailyData(row.row.ticker, setHistoricalData)}
+        onRowClick={(row) => setTicker(row.row.ticker)}
       />
     </div>
   );

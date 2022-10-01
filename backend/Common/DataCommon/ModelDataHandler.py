@@ -28,11 +28,21 @@ def get_interday_data(ticker, interval, _range):
     data = requests.get(YAHOO_INTERDAY_API.format(ticker=ticker, interval=interval, _range=_range),
                         headers={USER_AGENT: USER_AGENT_VALUE})
     data = data.json()['chart']['result'][0]['indicators']['quote'][0]
-    data = [{"y": [float(str(data[key][index])[:5]) for key in X_VALUES], "x": index} for index, _ in enumerate(data['close'])]
+    current_candle = {"y": ['0'], "x": 0}
+    data = [(current_candle := {"y": [handle_none(data[key][index], current_candle["y"][0])
+                                      for key in X_VALUES], "x": index}) for index, _ in enumerate(data['close'])]
     return data
 
 
-def  candle_data_from_raw_data(data: pd.DataFrame, start_date, end_date):
+def handle_none(price, price_before):
+    return _format_price(price) if price is not None else _format_price(price_before)
+
+
+def _format_price(price) -> float:
+    return float(str(price)[:5])
+
+
+def candle_data_from_raw_data(data: pd.DataFrame, start_date, end_date):
     dates = genereate_dates_between_two_dates(start_date, end_date)
     return [
         {"y": [float(str(data[candle_part][index])[:5])
@@ -104,7 +114,5 @@ def write_json(path, data):
     with open(path, 'w') as json_file:
         json.dump(data, json_file,
                   indent=4,
-                  separators=(',', ': '))
-
-
-print(get_interday_data('NIO', '1m', '1d'))
+                  separators=(',', ': ')
+                  )
