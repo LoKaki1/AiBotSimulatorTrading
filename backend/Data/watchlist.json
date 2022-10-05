@@ -4,9 +4,9 @@
         "watchlist": [
             {
                 "ticker": "NIO",
-                "price": 17.75,
-                "predictedPrice": "19.55",
-                "id": 3028469868272
+                "price": 16.14,
+                "predictedPrice": "17.37",
+                "id": 2268921700528
             },
             {
                 "ticker": "TSLA",
@@ -37,6 +37,12 @@
                 "price": 150.31,
                 "predictedPrice": "146.71",
                 "id": 2073762760240
+            },
+            {
+                "ticker": "GOOGL",
+                "price": 101.66,
+                "predictedPrice": "102.04",
+                "id": 2268880317232
             }
         ]
     }
