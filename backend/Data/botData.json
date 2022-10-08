@@ -1,0 +1,8 @@
+[
+  {"username": "testUsername",
+    "active_watchlist": [
+      {"ticker":  "tickerName", "moreDataIneedToAdd":  "Probably the data, if its in a trade, bought price, quantity, price to sell or stop loss"}
+    ]
+  }
+]
+

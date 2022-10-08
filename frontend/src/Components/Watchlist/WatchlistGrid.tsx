@@ -1,11 +1,13 @@
+import { DataGrid, GridColumns } from "@mui/x-data-grid";
+import axios from "axios";
 import { useEffect } from "react";
-import { DataGrid, GridCellParams, GridColumns } from "@mui/x-data-grid";
-import "./WatchlistGrid.css";
+import { Ticker } from "../../Common/Types/TickerType";
+import { CURRENT_PRICE_URL } from "../../Common/URLS";
+import { useHistoricalData } from "../../Hooks/Context/HistoricalDataContext";
+import { useTicker } from "../../Hooks/Context/TickerContext";
 import { useWatchlist } from "../../Hooks/Context/WatchlistContext";
 import { getUserWatchlist } from "./WatchlistCommon";
-import { useHistoricalData } from "../../Hooks/Context/HistoricalDataContext";
-import { getDailyData } from "../Data/HistoricalData/DailyData";
-import { useTicker } from "../../Hooks/Context/TickerContext";
+import "./WatchlistGrid.css";
 
 const columns: GridColumns = [
   {
@@ -36,9 +38,18 @@ export default function WatchlistGrid() {
   const { watchlist, setWatchlist } = useWatchlist();
   const { setHistoricalData } = useHistoricalData();
   const { setTicker } = useTicker();
+  const updateWatchlist = () => {
+    const tickers = watchlist.map((ticker: Ticker) => ticker.ticker);
+    const prices = tickers.map(async (ticker: string) => {
+      const response = await axios.get(`${CURRENT_PRICE_URL}?ticker=${ticker}`);
+      return response.data.currentPrice;
+    });
+    console.log(prices);
+  };
   useEffect(() => {
+    console.log("really wating twice🎈");
     getUserWatchlist(setWatchlist);
-  }, [setWatchlist]);
+  }, []);
 
   return (
     <div className="watchlist">

@@ -3,7 +3,7 @@ import PredictionLoaderInput from "./PredictionParts/PredictionInput/PredictionL
 
 export default function PredictionComponent() {
   return (
-    <div style={{paddingBottom: 6,  display: 'flex', }}>
+    <div className='prediction-input-button-container'>
       <PredictionLoaderInput />
       <PredictionButton />
     </div>

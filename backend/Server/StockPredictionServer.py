@@ -1,5 +1,5 @@
 import json
-from Common.DataCommon.ModelDataHandler import daily_candle_prices, get_interday_data
+from Common.DataCommon.ModelDataHandler import daily_candle_prices, get_interday_data, get_last_price
 from PredictingData import PredictingDataForServer
 from PredictingData.StockPredictionAi import END
 from PredictingData.Factory import TickerObjectFactory
@@ -59,7 +59,6 @@ def get_stock_interday_chart():
     ticker = request.args.get(TICKER, DEFAULT_STOCK)
     interval = request.args.get(INTERVAL, DEFAULT_INTERVAL)
     _range = request.args.get(RANGE, DEFAULT_RANGE)
-    print(f"ticker = {ticker}", f"{interval=}", f"{_range}", sep='\n')
     Logger.info(f"Getting interday chart for stock {ticker}")
     interday_data = get_interday_data(ticker, interval, _range)
     return {"interdayData": interday_data}
@@ -67,9 +66,10 @@ def get_stock_interday_chart():
 
 @app.route('/stock/current_price', methods=['GET'])
 def get_stock_current_price():
-    stock = request.args.get(TICKER, DEFAULT_STOCK)
-    Logger.info(f"current price for stock  {stock}")
-    return {"currentPrice": 6}
+    ticker = request.args.get(TICKER, DEFAULT_STOCK)
+    Logger.info(f"current price for stock  {ticker}")
+    price = get_last_price(ticker)
+    return {"currentPrice": price}
 
 
 @app.route('/prediction/ticker_object')

@@ -4,7 +4,7 @@ import PredictionTickerInput from "./PredictionTickerInput";
 
 export default function PredictionLoaderInput() {
   return (
-    <div style={{ height: "4rem" }}>
+    <div style={{width: '50%'}}>
       <PredictionTickerInput />
       <Loader />
     </div>

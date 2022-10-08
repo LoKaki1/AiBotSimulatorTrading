@@ -33,6 +33,12 @@ def get_interday_data(ticker, interval, _range):
     return data
 
 
+def get_last_price(ticker):
+    data = requests.get(YAHOO_INTERDAY_API.format(ticker=ticker, interval='1m', _range='1d'),
+                        headers={USER_AGENT: USER_AGENT_VALUE})
+    return _format_price(data.json()['chart']['result'][0]['indicators']['quote'][0]['close'][-1])
+
+
 def handle_none(price, price_before):
     return _format_price(price) if price is not None else _format_price(price_before)
 
@@ -115,3 +121,5 @@ def write_json(path, data):
                   indent=4,
                   separators=(',', ': ')
                   )
+
+print(get_last_price('NIO'))
