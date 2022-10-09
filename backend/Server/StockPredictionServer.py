@@ -1,4 +1,7 @@
 import json
+
+from flask_socketio import SocketIO
+
 from Common.DataCommon.ModelDataHandler import daily_candle_prices, get_interday_data, get_last_price
 from PredictingData import PredictingDataForServer
 from PredictingData.StockPredictionAi import END
@@ -14,6 +17,7 @@ from ServerKeysConstants import DEFAULT_STOCK, TICKER, DEFAULT_USER, AUTHENTICAT
 app = Flask(__name__)
 cors = CORS(app, support_credentials=True)
 app.config['CORS_HEADERS'] = 'application/json'
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 
 @app.before_request
@@ -81,5 +85,10 @@ def get_stock_object():
     return ticker_object
 
 
+@socketio.on('connect')
+def connection():
+    socketio.emit('after', {'data': 'hi'})
+
+
 if __name__ == '__main__':
-    app.run()
+    socketio.run(app, allow_unsafe_werkzeug=True)

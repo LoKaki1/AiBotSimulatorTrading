@@ -8,6 +8,7 @@ import { useTicker } from "../../Hooks/Context/TickerContext";
 import { useWatchlist } from "../../Hooks/Context/WatchlistContext";
 import { getUserWatchlist } from "./WatchlistCommon";
 import "./WatchlistGrid.css";
+import {io, Socket} from 'socket.io-client'
 
 const columns: GridColumns = [
   {
@@ -36,18 +37,9 @@ const columns: GridColumns = [
 
 export default function WatchlistGrid() {
   const { watchlist, setWatchlist } = useWatchlist();
-  const { setHistoricalData } = useHistoricalData();
   const { setTicker } = useTicker();
-  const updateWatchlist = () => {
-    const tickers = watchlist.map((ticker: Ticker) => ticker.ticker);
-    const prices = tickers.map(async (ticker: string) => {
-      const response = await axios.get(`${CURRENT_PRICE_URL}?ticker=${ticker}`);
-      return response.data.currentPrice;
-    });
-    console.log(prices);
-  };
+
   useEffect(() => {
-    console.log("really wating twice🎈");
     getUserWatchlist(setWatchlist);
   }, []);
 
