@@ -2,48 +2,7 @@
     {
         "username": "testUsername",
         "watchlist": [
-            {
-                "ticker": "NIO",
-                "price": 13.76,
-                "predictedPrice": "15.57",
-                "id": 2260166172080
-            },
-            {
-                "ticker": "TSLA",
-                "price": 275.61,
-                "predictedPrice": "276.93",
-                "id": 1801389664304
-            },
-            {
-                "ticker": "XPEV",
-                "price": 14.48,
-                "predictedPrice": "16.69",
-                "id": 1974637674416
-            },
-            {
-                "ticker": "MUI",
-                "price": 10.96,
-                "predictedPrice": "11.08",
-                "id": 1974674997872
-            },
-            {
-                "ticker": "BIG",
-                "price": 18.79,
-                "predictedPrice": "19.43",
-                "id": 2073633451248
-            },
-            {
-                "ticker": "AAPL",
-                "price": 150.31,
-                "predictedPrice": "146.71",
-                "id": 2073762760240
-            },
-            {
-                "ticker": "GOOGL",
-                "price": 101.66,
-                "predictedPrice": "102.04",
-                "id": 2268880317232
-            }
+
         ]
     }
 ]

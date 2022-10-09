@@ -122,4 +122,3 @@ def write_json(path, data):
                   separators=(',', ': ')
                   )
 
-print(get_last_price('NIO'))
