@@ -11,7 +11,7 @@ from PredictingData.Logs import MachineLogs
 
 """ My Constants """
 
-START = dt.datetime(2020, 4, 15).strftime('%Y-%m-%d')
+START = dt.datetime(2022, 1, 1).strftime('%Y-%m-%d')
 END = (dt.datetime.now() - dt.timedelta(days=0)).strftime('%Y-%m-%d')
 TEST_END = (dt.datetime.now() - dt.timedelta(days=2)).strftime('%Y-%m-%d')
 TEST_START = START

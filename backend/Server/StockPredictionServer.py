@@ -85,10 +85,5 @@ def get_stock_object():
     return ticker_object
 
 
-@socketio.on('connect')
-def connection():
-    socketio.emit('after', {'data': 'hi'})
-
-
 if __name__ == '__main__':
-    socketio.run(app, allow_unsafe_werkzeug=True)
+    app.run()

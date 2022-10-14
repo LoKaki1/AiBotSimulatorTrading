@@ -12,10 +12,13 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.11.45",
+    "@types/protobufjs": "^6.0.0",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "apexcharts": "^3.35.5",
     "axios": "^0.27.2",
+    "buffer": "^6.0.3",
+    "protobufjs": "^7.1.2",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "^18.2.0",
@@ -24,7 +27,8 @@
     "socket.io": "^4.5.2",
     "socket.io-client": "^4.5.2",
     "typescript": "^4.7.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "websocket": "^1.0.34"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -52,6 +56,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/websocket": "^1.0.5",
     "sass": "^1.54.9"
   }
 }

@@ -6,3 +6,4 @@ export const TICKER_OBJECT_PREDICTION = `${SERVER_URL}/prediction/ticker_object`
 export const TICKER_CHART = `${SERVER_URL}/stock/chart`
 export const TICKER_DAILY_CAHRT = `${TICKER_CHART}/daily`
 export const TICKER_INTERDAY_CAHRT = `${TICKER_CHART}/interday`
+export const YAHOO_WEB_SOCKET = "wss://streamer.finance.yahoo.com/";
