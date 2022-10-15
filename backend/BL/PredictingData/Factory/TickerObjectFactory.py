@@ -1,5 +1,5 @@
-from PredictingData.Factory.CurrentPriceFactory import get_current_price
-from PredictingData.Factory.PredictionFactory import predict_data_for_stock
+from BL.PredictingData.Factory.CurrentPriceFactory import get_current_price
+from BL.PredictingData.Factory.PredictionFactory import predict_data_for_stock
 
 
 def create_ticker_object(ticker: str):

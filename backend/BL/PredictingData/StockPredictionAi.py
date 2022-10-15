@@ -6,8 +6,8 @@ from keras.models import Sequential
 from sklearn.preprocessing import MinMaxScaler
 from keras.backend import clear_session
 from Common.DataCommon import ModelDataHandler
-from Logger import Logger
-from PredictingData.Logs import MachineLogs
+from Common.Logger import Logger
+from BL.PredictingData.Logs import MachineLogs
 
 """ My Constants """
 
@@ -220,12 +220,3 @@ class StockPrediction:
         """ Check len of data is same in both of them """
         self.scalar.inverse_transform(predicted_prices), actual_data
         return predicted_prices, actual_data
-
-
-def main():
-    ticker = 'NIO'
-    stock_prediction = StockPrediction(ticker)
-
-
-if __name__ == '__main__':
-    main()

@@ -1,4 +1,4 @@
-from Common.DataCommon.ModelDataHandler import open_json, write_json
+from Common.DataCommon.JsonCommon import open_json, write_json
 from DAL.Machine.Prediction.Abstracts.IMachinePredictionSaver import IMachinePredictionSaver
 
 

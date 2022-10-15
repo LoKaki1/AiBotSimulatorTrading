@@ -1,4 +1,4 @@
-from PredictingData.StockPredictionAi import StockPrediction
+from BL.PredictingData.StockPredictionAi import StockPrediction
 
 
 def predict_data_for_stock(ticker, **kwargs):

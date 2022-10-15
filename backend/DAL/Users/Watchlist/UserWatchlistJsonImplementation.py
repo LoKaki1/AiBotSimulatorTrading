@@ -1,6 +1,6 @@
 from typing import List
 
-from Common.DataCommon.ModelDataHandler import open_json, write_json
+from Common.DataCommon.JsonCommon import open_json, write_json
 from DAL.Users.Watchlist.Abstracts.IUserWatchlist import IUserWatchlist
 
 
