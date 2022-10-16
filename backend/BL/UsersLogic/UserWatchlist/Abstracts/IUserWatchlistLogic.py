@@ -7,7 +7,7 @@ class IUserWatchlistLogic:
         """
         :param user:
         :return:
-        """
+      """
         pass
 
     def update_user_watchlist(self, user: str, ticker: str):

@@ -1,7 +1,13 @@
-from typing import List
+from typing import List, Dict
 
 
 class IUserWatchlist:
+
+    def load_users_watchlist(self) -> Dict[str, List[str]]:
+        """
+        :return:
+        """
+        pass
 
     def load_user_watchlist(self, user: str) -> List[str]:
         """

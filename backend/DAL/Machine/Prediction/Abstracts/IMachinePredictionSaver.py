@@ -1,3 +1,6 @@
+from typing import Dict
+
+
 class IMachinePredictionSaver:
 
     def save_prediction(self, ticker: str, predicted_price: float, ):
@@ -20,4 +23,11 @@ class IMachinePredictionSaver:
         :param ticker:
         :return:
         """
+        pass
+
+    def get_prediction_data(self) -> Dict[str, float]:
+        """
+        :return:
+        """
+
         pass

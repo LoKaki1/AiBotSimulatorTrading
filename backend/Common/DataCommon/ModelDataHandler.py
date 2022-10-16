@@ -1,10 +1,12 @@
+from random import random, randint
+
 import requests
 import numpy as np
 import pandas as pd
 from yahoofinancials import YahooFinancials
 
 from Common.DataCommon.YahooConstants import YAHOO_INTERDAY_API, USER_AGENT, USER_AGENT_VALUE
-from Common.DateCommon import genereate_dates_between_two_dates
+from Common.DateCommon import generate_dates_between_two_dates
 from Common.Logger import Logger
 
 """ My Constants """
@@ -31,21 +33,25 @@ def get_interday_data(ticker, interval, _range):
 
 
 def get_last_price(ticker):
-    data = requests.get(YAHOO_INTERDAY_API.format(ticker=ticker, interval='1m', _range='1d'),
-                        headers={USER_AGENT: USER_AGENT_VALUE})
-    return _format_price(data.json()['chart']['result'][0]['indicators']['quote'][0]['close'][-1])
+    try:
+        data = requests.get(YAHOO_INTERDAY_API.format(ticker=ticker, interval='1m', _range='1d'),
+                            headers={USER_AGENT: USER_AGENT_VALUE})
+        return format_price(data.json()['chart']['result'][0]['indicators']['quote'][0]['close'][-1])
+    except [OSError, TypeError]:
+        Logger.error("Can't access to internet, data is not right")
+        return randint(0, 300)
 
 
 def handle_none(price, price_before):
-    return _format_price(price) if price is not None else _format_price(price_before)
+    return format_price(price) if price is not None else format_price(price_before)
 
 
-def _format_price(price) -> float:
+def format_price(price) -> float:
     return float(str(price)[:5])
 
 
 def candle_data_from_raw_data(data: pd.DataFrame, start_date, end_date):
-    dates = genereate_dates_between_two_dates(start_date, end_date)
+    dates = generate_dates_between_two_dates(start_date, end_date)
     return [
         {"y": [float(str(data[candle_part][index])[:5])
                for candle_part in X_VALUES], "x": dates[index]}

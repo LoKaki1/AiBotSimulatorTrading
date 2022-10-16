@@ -29,7 +29,7 @@ export default function CandleStickChart() {
           },
           xaxis: {
             labels: {
-              formatter: (value) => {
+              formatter: (value : any) => {
                 return "";
               },
             },

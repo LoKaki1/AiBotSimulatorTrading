@@ -73,9 +73,10 @@ export default function WatchlistGrid() {
   }, [watchlist]);
 
   useEffect(() => {
-    getUserWatchlist(setWatchlist).then(() => {
-      subscribeTicker();
-    });
+    getUserWatchlist(setWatchlist)
+    // .then(() => {
+    //   subscribeTicker();
+    // });
   }, []);
 
   return (

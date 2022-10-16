@@ -1,7 +1,7 @@
 from typing import Dict
 
 
-class IMachinePredicionLogic:
+class IMachinePredictionLogic:
 
     def get_prediction_data(self) -> Dict[str, float]:
         """
@@ -16,3 +16,12 @@ class IMachinePredicionLogic:
         :return:
         """
         pass
+
+    def predict_ticker(self, ticker, **kwargs) -> float:
+        """
+        :param ticker:
+        :return:
+        """
+        pass
+
+

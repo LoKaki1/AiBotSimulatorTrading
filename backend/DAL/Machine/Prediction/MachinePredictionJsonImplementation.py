@@ -1,3 +1,5 @@
+from typing import Dict
+
 from Common.DataCommon.JsonCommon import open_json, write_json
 from DAL.Machine.Prediction.Abstracts.IMachinePredictionSaver import IMachinePredictionSaver
 
@@ -32,5 +34,8 @@ class MachinePredictionJsonImplementation(IMachinePredictionSaver):
         """
         ticker_data = open_json(self.path)
         return ticker_data[ticker]
+
+    def get_prediction_data(self) -> Dict[str, float]:
+        return open_json(self.path)
 
 

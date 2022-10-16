@@ -1,7 +1,7 @@
 import datetime as dt
 import numpy as np
 from keras.layers import Dense
-from keras.layers import  LSTM, Dropout
+from keras.layers import LSTM, Dropout
 from keras.models import Sequential
 from sklearn.preprocessing import MinMaxScaler
 from keras.backend import clear_session
@@ -220,3 +220,9 @@ class StockPrediction:
         """ Check len of data is same in both of them """
         self.scalar.inverse_transform(predicted_prices), actual_data
         return predicted_prices, actual_data
+
+
+if __name__ == '__main__':
+    ticker = 'NIO'
+    prediction = StockPrediction(ticker)
+    print(prediction.predict_next_price())
