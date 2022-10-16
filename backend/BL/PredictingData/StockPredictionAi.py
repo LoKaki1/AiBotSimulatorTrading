@@ -5,15 +5,17 @@ from keras.layers import LSTM, Dropout
 from keras.models import Sequential
 from sklearn.preprocessing import MinMaxScaler
 from keras.backend import clear_session
+
+from Common.Constants.FormatConstants import DATE_FORMAT
 from Common.DataCommon import ModelDataHandler
 from Common.Logger import Logger
 from BL.PredictingData.Logs import MachineLogs
 
 """ My Constants """
 
-START = dt.datetime(2022, 1, 1).strftime('%Y-%m-%d')
-END = (dt.datetime.now() - dt.timedelta(days=0)).strftime('%Y-%m-%d')
-TEST_END = (dt.datetime.now() - dt.timedelta(days=2)).strftime('%Y-%m-%d')
+START = dt.datetime(2022, 1, 1).strftime(DATE_FORMAT)
+END = (dt.datetime.now() - dt.timedelta(days=0)).strftime(DATE_FORMAT)
+TEST_END = (dt.datetime.now() - dt.timedelta(days=2)).strftime(DATE_FORMAT)
 TEST_START = START
 X_VALUES = ModelDataHandler.X_VALUES
 PREDICTION_DAY = 1
@@ -158,16 +160,16 @@ class StockPrediction:
 
     def inverse_scalar_prediction_result(self, prediction_data_result):
         try:
-            prediction = self.scalar.inverse_transform(prediction_data_result[-1])
+            prediction_result = self.scalar.inverse_transform(prediction_data_result[-1])
             Logger.info("Succeed in inverse scalar prediction result")
-            Logger.info(prediction[-1])
+            Logger.info(prediction_result[-1])
         except ValueError as error:
             Logger.error(MachineLogs.INVERSING_SCALAR_ERROR.format(error=error))
-            prediction = self.scalar.inverse_transform(
+            prediction_result = self.scalar.inverse_transform(
                 np.reshape(
                     prediction_data_result, (prediction_data_result.shape[0],
                                              prediction_data_result.shape[1], 1)).reshape(-1, 1))
-        return prediction
+        return prediction_result
 
     def predict_data(self, model_inputs):
         """ Setting model inputs to be equal to scaled data...
@@ -223,6 +225,6 @@ class StockPrediction:
 
 
 if __name__ == '__main__':
-    ticker = 'NIO'
-    prediction = StockPrediction(ticker)
+    ticker_test = 'NIO'
+    prediction = StockPrediction(ticker_test)
     print(prediction.predict_next_price())

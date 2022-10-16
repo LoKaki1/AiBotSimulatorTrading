@@ -1,7 +1,22 @@
 {
-    "NIO": 16.06,
-    "TSLA": 245.3,
-    "XPEV": 9.948,
-    "LI": 22.07,
-    "BIG": 17.22
+    "NIO": {
+        "predictedPrice": 16.31,
+        "date": "2022-10-16"
+    },
+    "BIG": {
+        "predictedPrice": 17.17,
+        "date": "2022-10-16"
+    },
+    "TSLA": {
+        "predictedPrice": 243.5,
+        "date": "2022-10-16"
+    },
+    "XPEV": {
+        "predictedPrice": 10.25,
+        "date": "2022-10-16"
+    },
+    "LI": {
+        "predictedPrice": 22.15,
+        "date": "2022-10-16"
+    }
 }

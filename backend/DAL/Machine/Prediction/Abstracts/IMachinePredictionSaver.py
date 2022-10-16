@@ -1,9 +1,9 @@
-from typing import Dict
+from typing import Dict, Union
 
 
 class IMachinePredictionSaver:
 
-    def save_prediction(self, ticker: str, predicted_price: float, ):
+    def save_prediction(self, ticker: str, predicted_price: float):
         """
         :param ticker: ticker name
         :param predicted_price:
@@ -18,14 +18,14 @@ class IMachinePredictionSaver:
         """
         pass
 
-    def get_ticker_prediction(self, ticker: str) -> float:
+    def get_ticker_prediction(self, ticker: str) -> dict:
         """
         :param ticker:
         :return:
         """
         pass
 
-    def get_prediction_data(self) -> Dict[str, float]:
+    def get_prediction_data(self) -> Dict[str, Dict[str, Union[float, str]]]:
         """
         :return:
         """
