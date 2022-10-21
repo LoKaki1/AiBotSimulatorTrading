@@ -1,0 +1,31 @@
+{
+"epochs": 28,
+"units": 57,
+"prediction_days": 14,
+"layers": [
+    {
+        "Dense": {
+            "units": 57,
+            "activation": "tanh"
+        }
+    },
+    {
+        "Dense": {
+            "units": 25,
+            "activation": "relu"
+        }
+    },
+    {
+        "Dropout": {
+            "units": 0.2,
+            "activation": "softsign"
+        }
+    },
+    {
+        "LSTM": {
+            "units": 7,
+            "activation": "relu"
+        }
+    }
+    ]
+}

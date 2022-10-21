@@ -1,19 +1,15 @@
 import json
 
-from flask_socketio import SocketIO
-
-from Common.DataCommon.ModelDataHandler import daily_candle_prices, get_interday_data, get_last_price
 from flask import Flask, request, Response
 from flask_cors import CORS
+
 from Common.Logger import Logger
-from ServerKeysConstants import DEFAULT_STOCK, TICKER, DEFAULT_USER, AUTHENTICATION, START_DAY, \
-    DEFAULT_START_DAY, INTERVAL, DEFAULT_INTERVAL, RANGE, DEFAULT_RANGE
+from ServerKeysConstants import DEFAULT_STOCK, TICKER, DEFAULT_USER, AUTHENTICATION, CORS_HEADERS, CORS_HEADERS_JSON
 from Bootstrap.Bootstrapper import bootstrapper
 
 app = Flask(__name__)
 cors = CORS(app, support_credentials=True)
-app.config['CORS_HEADERS'] = 'application/json'
-socketio = SocketIO(app, cors_allowed_origins="*")
+app.config[CORS_HEADERS] = CORS_HEADERS_JSON
 prediction_watchlist_manager = bootstrapper()
 
 
@@ -24,11 +20,9 @@ def check_authentication():
 
 @app.after_request
 def parse_data(response: Response):
-    result = Response(
-        json.dumps(response.get_json())
-    )
+    response_json = response.get_json()
+    result = Response(json.dumps(response_json))
     return result
-
 
 @app.route('/watchlist', methods=['GET'])
 def get_user_watchlist():

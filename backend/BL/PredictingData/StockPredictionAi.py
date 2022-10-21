@@ -1,33 +1,17 @@
-import datetime as dt
 import numpy as np
-from keras.layers import Dense
-from keras.layers import LSTM, Dropout
 from keras.models import Sequential
 from sklearn.preprocessing import MinMaxScaler
 from keras.backend import clear_session
 
-from Common.Constants.FormatConstants import DATE_FORMAT
+from BL.PredictingData.ModelBuilder.ModelBuilderLayers import build_model_layers
+from Common.Constants.MachineConstants import END, START, TEST_START, TEST_END, DEFAULT_PREDICTION_DAY, \
+    PREDICTION_DAYS, EPOCHS, BATCH_SIZE, CLOSE_PREDICTION, X_VALUES, MODEL_PARAMETERS
 from Common.DataCommon import ModelDataHandler
 from Common.Logger import Logger
 from BL.PredictingData.Logs import MachineLogs
 
 """ My Constants """
-
-START = dt.datetime(2022, 1, 1).strftime(DATE_FORMAT)
-END = (dt.datetime.now() - dt.timedelta(days=0)).strftime(DATE_FORMAT)
-TEST_END = (dt.datetime.now() - dt.timedelta(days=2)).strftime(DATE_FORMAT)
-TEST_START = START
-X_VALUES = ModelDataHandler.X_VALUES
-PREDICTION_DAY = 1
-PREDICTION_DAYS = 21
-EPOCHS = 25
-UNITS = 50
-DROPOUT_UNITS = 0.2
-BATCH_SIZE = 32
-OPEN_PREDICTION = 0
-LOW_PREDICTION = 1
-HIGH_PREDICTION = 2
-CLOSE_PREDICTION = 3
+MACHINE_PARAMETERS_PATH = './MachineParameters.json'
 
 """ Model """
 
@@ -37,14 +21,14 @@ class StockPrediction:
     def __init__(self, ticker, **kwargs):
         self.scalar = None
         self.ticker = ticker
+        self.model_parameters = MODEL_PARAMETERS
         self.start = START
         self.end = END
         self.test_start = TEST_START
         self.test_end = TEST_END
-        self.prediction_day = PREDICTION_DAY
-        self.prediction_days = PREDICTION_DAYS
-        self.epochs = EPOCHS
-        self.units = UNITS
+        self.prediction_day = DEFAULT_PREDICTION_DAY
+        self.prediction_days = self.model_parameters[PREDICTION_DAYS]
+        self.epochs = self.model_parameters[EPOCHS]
         self.batch_size = BATCH_SIZE
         self.predict_constant = CLOSE_PREDICTION
         self.model = None
@@ -88,8 +72,8 @@ class StockPrediction:
         """
         x_train = []
         y_train = []
-        delta = len(X_VALUES) * self.prediction_days
         length_const = len(X_VALUES)
+        delta = length_const * self.prediction_days
         """ Means to start counting from prediction_days index 'til the end """
         for x in range(delta, len(scaled_data) - ((self.prediction_day - 1) * length_const), length_const):
             """ x_train[0] = array[scaled_data[0], scaled_data[1], ... scaled_data[prediction_days]]
@@ -116,13 +100,7 @@ class StockPrediction:
         """ Build Model """
         """ Clear session """
         clear_session()
-        model = Sequential([
-            LSTM(self.units, return_sequences=True, input_shape=(x_train.shape[1], 1)),
-            Dropout(DROPOUT_UNITS),
-            LSTM(self.units, return_sequences=True),
-            Dropout(DROPOUT_UNITS),
-            Dense(1)
-        ])
+        model = build_model_layers(self.model_parameters['layers'], (x_train.shape[1], 1))
         model.compile(optimizer='adam', loss='mean_squared_error')
 
         Logger.info(MachineLogs.BUILD_MODEL_LAYERS)
@@ -137,7 +115,7 @@ class StockPrediction:
 
     def build_model_for_prediction(self, scaled_data):
         if self.model is not None:
-            return
+            return self.model
         x_train, y_train = self.prepare_data_for_model(scaled_data)
         ModelDataHandler.check_prepared_data_for_model(x_train, y_train, self.prediction_day)
         x_train, y_train = ModelDataHandler.reshape_trains(x_train, y_train)

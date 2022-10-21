@@ -14,6 +14,8 @@ INTERVAL = 'interval'
 DEFAULT_INTERVAL = '1m'
 RANGE = 'range'
 DEFAULT_RANGE = '1d'
+CORS_HEADERS = 'CORS_HEADERS'
+CORS_HEADERS_JSON = 'application/json'
 
 
 """

@@ -1,8 +1,7 @@
-from typing import Dict
-
 from BL.MachineLogic.PredictionLogic.Abstracts.IMachinePredictionLogic import IMachinePredictionLogic
 from BL.UsersLogic.UserWatchlist.Abstracts.IUserWatchlistLogic import IUserWatchlistLogic
 from BL.WatchlistPrediction.Abstracts.IWatchlistPrediction import IWatchlistPrediction
+from Common.Constants.DataConstant import TICKER, PREDICTED_PRICE, CURRENT_PRICE, ID
 from Common.DataCommon.ModelDataHandler import get_last_price
 
 
@@ -29,7 +28,7 @@ class WatchlistPrediction(IWatchlistPrediction):
 
     def build_ticker_object(self, ticker, **kwargs):
         return {
-                "ticker": ticker,
-                "predictedPrice": self.machine_logic.predict_ticker(ticker, **kwargs),
-                "price": get_last_price(ticker), "id": id(ticker)
+                TICKER: ticker,
+                PREDICTED_PRICE: self.machine_logic.predict_ticker(ticker, **kwargs),
+                CURRENT_PRICE: get_last_price(ticker), ID: id(ticker)
             }

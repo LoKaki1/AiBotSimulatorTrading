@@ -37,7 +37,7 @@ def get_last_price(ticker):
         data = requests.get(YAHOO_INTERDAY_API.format(ticker=ticker, interval='1m', _range='1d'),
                             headers={USER_AGENT: USER_AGENT_VALUE})
         return format_price(data.json()['chart']['result'][0]['indicators']['quote'][0]['close'][-1])
-    except [OSError, TypeError]:
+    except (OSError, TypeError):
         Logger.error("Can't access to internet, data is not right")
         return randint(0, 300)
 

@@ -1,22 +1,26 @@
 {
     "NIO": {
-        "predictedPrice": 16.31,
-        "date": "2022-10-16"
+        "predictedPrice": 13.16,
+        "date": "2022-10-18"
     },
     "BIG": {
-        "predictedPrice": 17.17,
-        "date": "2022-10-16"
+        "predictedPrice": 18.14,
+        "date": "2022-10-18"
     },
     "TSLA": {
-        "predictedPrice": 243.5,
-        "date": "2022-10-16"
+        "predictedPrice": 220.8,
+        "date": "2022-10-18"
     },
     "XPEV": {
-        "predictedPrice": 10.25,
-        "date": "2022-10-16"
+        "predictedPrice": 8.15,
+        "date": "2022-10-18"
     },
     "LI": {
-        "predictedPrice": 22.15,
-        "date": "2022-10-16"
+        "predictedPrice": 19.31,
+        "date": "2022-10-18"
+    },
+    "BABA": {
+        "predictedPrice": 83.48,
+        "date": "2022-10-18"
     }
 }
